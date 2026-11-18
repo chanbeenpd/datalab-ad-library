@@ -95,6 +95,17 @@ details dd{margin:0 0 6px;line-height:1.55}
 .warn{font-size:12px;color:#c0392b;font-weight:700}
 .grid.h .media.tall{aspect-ratio:16/9;background:#0b1020}.grid.h .media.tall img{object-fit:contain}
 .ind{display:inline-block;vertical-align:2px;font-size:11px;font-weight:800;color:#b45309;background:#fef3c7;padding:2px 7px;border-radius:6px;margin-right:6px}
+.grid.kcg{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.kc{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s}
+.kc:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(15,23,42,.10)}
+.kc-img{aspect-ratio:1/1;background:#000;overflow:hidden}
+.kc-img img{width:100%;height:100%;object-fit:cover;display:block}
+.kc-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px}
+.kc-copy{font-size:18px;font-weight:900;line-height:1.45;letter-spacing:-.02em}
+.kc-meta{display:flex;align-items:center;gap:8px;font-size:13px}
+.kc-meta b{color:var(--ink)}
+.kc-meta span{background:#f3e8ff;color:#7c3aed;font-weight:800;font-size:12px;padding:2px 9px;border-radius:99px}
+.kc-pt{font-size:13px;color:var(--sub);background:#f8fafc;border-radius:10px;padding:8px 10px}
 .empty{padding:80px 0;text-align:center;color:var(--sub)}
 
 /* 재생 창 */
@@ -109,6 +120,7 @@ details dd{margin:0 0 6px;line-height:1.55}
 footer{padding:30px 0 50px;text-align:center;color:#94a3b8;font-size:13px}
 
 @media(max-width:640px){
+  .grid.kcg{grid-template-columns:1fr 1fr;gap:12px}.kc-body{padding:12px}.kc-copy{font-size:15px}.kc-pt{font-size:12px}
   .hero{padding:46px 0 36px}
   .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{min-width:0;padding:10px 12px}.stat b{font-size:21px}.stat span{white-space:nowrap}
   .row1{flex-direction:column;align-items:stretch}
@@ -126,7 +138,7 @@ footer{padding:30px 0 50px;text-align:center;color:#94a3b8;font-size:13px}
 <section class="hero"><div class="w">
   <span class="eyebrow">LONG-TERM RENTAL AD LIBRARY</span>
   <h1>장기렌트 <em>광고 모음</em></h1>
-  <p>잘 만든 장기렌트 광고를 모아 두고, 다음 광고를 만들 때 꺼내 쓰는 곳입니다.</p>
+  <p>잘 만든 장기렌트 광고와 키카피를 모아 두고, 다음 광고를 만들 때 꺼내 쓰는 곳입니다.</p>
   <div class="stats" id="stats"></div>
 </div></section>
 
@@ -263,25 +275,50 @@ const 광고 = [
 ];
 /* ▲ */
 
+/* ▼ 광고 키카피 (사진은 키카피/ 폴더) */
+const 키카피 = [
+  {브랜드:'바르지오', 카피:'바르면 그만이야', 기법:'단언형', 포인트:'"바르면 끝"을 반말 한마디로 — 효과를 자신감으로 말함', 사진:'키카피/카피1.jpg'},
+  {브랜드:'삼립호빵', 카피:'이를 악물지 말고 / 이를 앙 물어봐요', 기법:'말장난', 포인트:'"악물다 → 앙 물다" 한 글자 차이로 위로 + 먹는 장면 연결', 사진:'키카피/카피2.jpg'},
+  {브랜드:'시디즈', 카피:'지금의 내가 아닌 / 지금까지의 나를 믿는다', 기법:'대구·반전', 포인트:'"지금의 / 지금까지의" 한 글자 차이로 의미를 뒤집음', 사진:'키카피/카피3.jpg'},
+  {브랜드:'알리익스프레스', 카피:'확실한 알리BUY', 기법:'말장난', 포인트:'"알리바이 → 알리BUY" 브랜드명을 단어에 끼워 넣기', 사진:'키카피/카피4.jpg'},
+  {브랜드:'메가스터디', 카피:'너라는 해가 뜨기까지 / 무릎이 해지도록 달려온 시간들', 기법:'말장난', 포인트:'"해(太陽) / 해지다(닳다)" 같은 소리 두 번', 사진:'키카피/카피5.jpg'},
+  {브랜드:'층간소음 공익광고', 카피:'온 가족이 웃다 / 온 가족, 이웃 다 웃는다', 기법:'말장난', 포인트:'"이 웃다 → 이웃 다" 띄어쓰기 하나로 메시지 확장', 사진:'키카피/카피6.jpg'},
+  {브랜드:'하트시그널5', 카피:'다 다른 너와 내가 / 운명에 다다른 순간', 기법:'말장난', 포인트:'"다 다른 / 다다른" 같은 소리 다른 뜻', 사진:'키카피/카피7.jpg'},
+  {브랜드:'다우니', 카피:'과하지 않은 향기로 / 너에게 기억되는 것 / 그게 가장 나다우니', 기법:'말장난', 포인트:'"나다우니 = 나답다 + 다우니" 브랜드명 녹이기', 사진:'키카피/카피8.jpg'},
+  {브랜드:'나이키', 카피:'일부로 그랬다 / 전부를 위해서', 기법:'대구·반전', 포인트:'"일부러 → 일부로" 비틀고 "전부"와 짝지음', 사진:'키카피/카피9.jpg'},
+  {브랜드:'LF푸드 소고기 타다끼', 카피:'이 / 타다끼 마스', 기법:'말장난', 포인트:'"이 타다끼 맛있어 → 마스" 일본어 어미처럼 들리게', 사진:'키카피/카피10.jpg'},
+  {브랜드:'투썸플레이스 말차', 카피:'우리의 우정 / 변치 말차', 기법:'말장난', 포인트:'"변치 말자 → 말차" 제품명을 약속 문장에', 사진:'키카피/카피11.jpg'},
+  {브랜드:'크리넥스', 카피:'여러분 모두 흥하세요 / 흥!', 기법:'말장난', 포인트:'"흥하다 / 코 풀 때 흥" 소리 하나로 응원+제품', 사진:'키카피/카피12.jpg'},
+  {브랜드:'KCC건설 스위첸', 카피:'돌아갈 집이 있다는 건 / 나아갈 힘을 얻는 것과 같다', 기법:'대구·반전', 포인트:'"돌아갈 / 나아갈" 반대 방향 대구로 집의 의미 확장', 사진:'키카피/카피13.jpg'},
+  {브랜드:'폴라로이드 카메라', 카피:'어른이 되어서야 / 눈에 어린 추억들', 기법:'말장난', 포인트:'"어른 / 어린" 한 글자 차이, 사진=추억', 사진:'키카피/카피14.jpg'},
+  {브랜드:'미스 디올 오 드 퍼퓸', 카피:'마치 생화인듯 조화롭게', 기법:'말장난', 포인트:'"생화 / 조화(가짜 꽃·어울림)" 꽃 단어로 향수 묘사', 사진:'키카피/카피15.jpg'},
+  {브랜드:'포카리스웨트', 카피:'열에 아홉 / 완벽하지 않기에 열아홉', 기법:'말장난', 포인트:'"열에 아홉 → 열아홉(나이)" 숫자 말장난으로 청춘', 사진:'키카피/카피16.jpg'},
+  {브랜드:'산림청', 카피:'원숭이도 나무에서 / 떨어질 때가 있었다', 기법:'속담 비틀기', 포인트:'익숙한 속담을 산림 훼손 메시지로 뒤집음', 사진:'키카피/카피17.jpg'},
+  {브랜드:'카스', 카피:'두말하면 짠, 소리', 기법:'말장난', 포인트:'"두말하면 잔소리 → 짠, 소리" 건배 소리로 바꿈', 사진:'키카피/카피18.jpg'}
+];
+
+
 const 분류순 = [
   ['숏폼 광고','릴스·쇼츠용 세로 광고'],
   ['브랜드 광고','브랜드를 앞세운 정식 광고'],
-  ['크리에이터 PPL','유튜버 채널에 녹인 협찬 영상']
+  ['크리에이터 PPL','유튜버 채널에 녹인 협찬 영상'],
+  ['키카피','한 줄로 기억에 남는 광고 문구']
 ];
+const 개수 = k => k==='키카피' ? 키카피.length : k==='전체' ? 광고.length+키카피.length : 광고.filter(a=>a.분류===k).length;
 const 우리 = ['다타랩','다타랩TV'];
 const $ = id => document.getElementById(id);
 let 탭='전체', 태그='';
 
 $('stats').innerHTML = [
-  [광고.length,'전체 광고'],
-  ...분류순.map(([k])=>[광고.filter(a=>a.분류===k).length,k]),
+  [광고.length,'광고 영상'],
+  ...분류순.map(([k])=>[개수(k),k]),
   [new Set(광고.map(a=>a.브랜드.replace('TV',''))).size,'브랜드']
 ].map(([n,t])=>`<div class="stat"><b>${n}</b><span>${t}</span></div>`).join('');
 
 function 탭그리기(){
-  $('tabs').innerHTML = [['전체',광고.length],...분류순.map(([k])=>[k,광고.filter(a=>a.분류===k).length])]
+  $('tabs').innerHTML = [['전체',개수('전체')],...분류순.map(([k])=>[k,개수(k)])]
     .map(([k,n])=>`<button class="tab${k===탭?' on':''}" data-k="${k}">${k}<small>${n}</small></button>`).join('');
-  const 태그들=[...new Set(광고.filter(a=>탭==='전체'||a.분류===탭).flatMap(a=>a.태그))];
+  const 태그들=[...new Set([...광고.filter(a=>탭==='전체'||a.분류===탭).flatMap(a=>a.태그), ...((탭==='전체'||탭==='키카피')?키카피.map(c=>c.기법):[])])];
   if(태그 && !태그들.includes(태그)) 태그='';
   $('chips').innerHTML = 태그들.map(t=>`<button class="chip${t===태그?' on':''}" data-t="${t}">${t}</button>`).join('');
 }
@@ -305,16 +342,28 @@ function 카드(a){
       </dl></details>
     </div></article>`;
 }
+function 카피카드(c){
+  return `<article class="kc"><div class="kc-img"><img src="${c.사진}" alt="" loading="lazy"></div>
+    <div class="kc-body"><p class="kc-copy">${c.카피.split(' / ').join('<br>')}</p>
+    <div class="kc-meta"><b>${c.브랜드}</b><span>${c.기법}</span></div>
+    <p class="kc-pt">${c.포인트}</p></div></article>`;
+}
 function 그리기(){
   탭그리기();
   const k=$('q').value.trim().toLowerCase();
   const 맞음=a=>(탭==='전체'||a.분류===탭)&&(!태그||a.태그.includes(태그))&&(!k||JSON.stringify(a).toLowerCase().includes(k));
   let html='';
   for(const [분류,설명] of 분류순){
+    if(분류==='키카피') continue;
     const 목록=광고.filter(a=>a.분류===분류&&맞음(a));
     if(!목록.length) continue;
     html+=`<section class="sec"><div class="sec-h"><h2>${분류}</h2><span>${목록.length}편</span><p>${설명}</p></div>
       <div class="grid ${분류==='숏폼 광고'?'v':'h'}">${목록.map(카드).join('')}</div></section>`;
+  }
+  if(탭==='전체'||탭==='키카피'){
+    const 목록=키카피.filter(c=>(!태그||c.기법===태그)&&(!k||JSON.stringify(c).toLowerCase().includes(k)));
+    if(목록.length) html+=`<section class="sec"><div class="sec-h"><h2>키카피</h2><span>${목록.length}개</span><p>한 줄로 기억에 남는 광고 문구</p></div>
+      <div class="grid kcg">${목록.map(카피카드).join('')}</div></section>`;
   }
   $('main').innerHTML = html || '<div class="empty">찾는 광고가 없습니다.</div>';
 }
