@@ -44,7 +44,8 @@ body{font-family:"Pretendard Variable",Pretendard,"Malgun Gothic",sans-serif;bac
 .search input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(30,83,242,.12)}
 .search:before{content:"";position:absolute;left:14px;top:50%;width:13px;height:13px;margin-top:-8px;border:2px solid #94a3b8;border-radius:50%}
 .search:after{content:"";position:absolute;left:26px;top:50%;width:6px;height:2px;margin-top:5px;background:#94a3b8;transform:rotate(45deg)}
-#chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+#chips{display:flex;gap:6px;flex-wrap:wrap;padding-bottom:2px}
+@media(max-width:640px){#chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}}
 #chips::-webkit-scrollbar{display:none}
 .chip{flex:none;border:1px solid var(--line);background:#fff;border-radius:99px;padding:5px 12px;font:inherit;font-size:13px;font-weight:600;color:var(--sub);cursor:pointer}
 .chip:before{content:"#";opacity:.5;margin-right:1px}
@@ -420,10 +421,10 @@ function 탭그리기(){
     .map(([k,n])=>`<button class="tab${k===탭?' on':''}" data-k="${k}">${k}<small>${n}</small></button>`).join('');
   const 태그들=[...new Set([...광고.filter(a=>탭==='전체'||a.분류===탭).flatMap(a=>a.태그), ...((탭==='전체'||탭==='키카피')?키카피.map(c=>c.기법):[])])];
   if(태그 && !태그들.includes(태그)) 태그='';
-  $('chips').innerHTML = 태그들.map(t=>`<button class="chip${t===태그?' on':''}" data-t="${t}">${t}</button>`).join('');
+  $('chips').innerHTML = `<button class="chip all${태그===''?' on':''}" data-t="">전체</button>` + 태그들.map(t=>`<button class="chip${t===태그?' on':''}" data-t="${t}">${t}</button>`).join('');
 }
-$('tabs').onclick=e=>{const b=e.target.closest('.tab'); if(!b) return; 탭=b.dataset.k; 그리기();};
-$('chips').onclick=e=>{const b=e.target.closest('.chip'); if(!b) return; 태그 = 태그===b.dataset.t?'':b.dataset.t; 그리기();};
+$('tabs').onclick=e=>{const b=e.target.closest('.tab'); if(!b) return; 탭=b.dataset.k; 태그=''; 그리기();};
+$('chips').onclick=e=>{const b=e.target.closest('.chip'); if(!b) return; 태그 = b.dataset.t; 그리기();};
 $('q').oninput=()=>그리기();
 
 function 카드(a){
