@@ -919,7 +919,7 @@ function 현황그리기(d){
   $('track').querySelectorAll('tr.r').forEach(tr=>tr.onclick=e=>{ if(e.target.closest('.tip,a'))return; 열린업체=열린업체===tr.dataset.n?'':tr.dataset.n; 현황그리기(d); });
   $('track').querySelectorAll('button.go').forEach(bt=>bt.onclick=()=>{ 탭='인스타·페북 광고'; 태그=''; $('q').value=bt.dataset.n.replace(/\(.*\)/,'').trim(); 그리기(); scrollTo({top:document.querySelector('.tools').offsetTop,behavior:'smooth'}); });
 }
-const PPL홈={'A1오토(에이원오토)':'https://a1auto.io','신차드림':'https://www.sinchadream.co.kr','원더굿라이프':'https://wonder-goodlife.com','시현장기렌트(차맵)':'https://chamap.co.kr','차즘':'https://chazm.co.kr','비피디오토(비피디)':'https://www.bpdauto.com','지엔에이(다타랩)':'https://www.gnacar.com','롯데렌터카':'https://www.lotterentacar.net','차끗':'https://direct.xn--f00bm14c.com/','올오토':'https://allautoholdings.com','KS오토플랜':'https://ks-rentcar.com'};
+const PPL홈={'A1오토(에이원오토)':'https://a1auto.io','신차드림':'https://www.sinchadream.co.kr','원더굿라이프':'https://wonder-goodlife.com','시현장기렌트(차맵)':'https://chamap.co.kr','차즘':'https://chazm.co.kr','비피디오토(비피디)':'https://www.bpdauto.com','지엔에이(다타랩)':'https://www.datalab-tv.com','롯데렌터카':'https://www.lotterentacar.net','차끗':'https://direct.xn--f00bm14c.com/','올오토':'https://allautoholdings.com','KS오토플랜':'https://ks-rentcar.com'};
 fetch('유튜버PPL.json').then(r=>r.ok?r.json():null).then(d=>{ if(!d) return;
   const 묶음={}; d.rows.forEach(r=>(묶음[r.company]=묶음[r.company]||[]).push(r));
   const 표={'진행 중':'on','자체 채널':'self','확인 안 됨':'off','업로드 멈춤':'stop'};
