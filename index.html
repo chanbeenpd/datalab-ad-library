@@ -118,6 +118,29 @@ details dd{margin:0 0 6px;line-height:1.55}
 .bb{height:12px;background:#eef2f8;border-radius:99px;overflow:hidden}.bb i{display:block;height:100%;border-radius:99px}
 .br b{text-align:right}.br small{color:#16a34a;font-weight:800;font-size:11px}
 @media(max-width:640px){.st-grid{grid-template-columns:1fr}.br{grid-template-columns:96px 1fr 34px 28px;font-size:12px}}
+.track{margin-top:-30px;position:relative;z-index:5}
+.tk{background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:0 20px 50px rgba(15,23,42,.12);padding:22px 22px 14px}
+.tk-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.tk-h h2{font-size:clamp(19px,2.2vw,23px);font-weight:900;letter-spacing:-.02em}
+.tk-h span{font-size:12.5px;color:var(--sub)}
+.tk-wrap{overflow-x:auto}
+.tk table{width:100%;border-collapse:collapse;min-width:760px;font-size:13.5px}
+.tk th{font-size:12px;color:var(--sub);font-weight:700;text-align:left;padding:8px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tk td{padding:7px 8px;border-bottom:1px solid #f1f4f9;vertical-align:middle}
+.tk tr.r{cursor:pointer}.tk tr.r:hover td{background:#f7f9fe}
+.tk tr.ours td{background:#eef4ff}.tk tr.ours td:nth-child(2){color:var(--blue);font-weight:900}
+.tk .rk{width:28px;color:#94a3b8;font-weight:800}
+.tk .nm{font-weight:800;white-space:nowrap}
+.tk .mb{display:flex;align-items:center;gap:8px}.tk .bw{display:block;width:180px;height:10px;background:#eef2f8;border-radius:99px;overflow:hidden}
+.tk .mb i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#1E53F2,#00ABCE)}
+.tk .mb b{min-width:28px}
+.tk .nw{color:#16a34a;font-weight:800;font-size:12px}
+.tk .na{color:#cbd5e1}
+.tk .memo{font-size:11.5px;color:var(--sub);max-width:260px}
+.tk-more{display:block;margin:8px auto 0;border:0;background:none;color:var(--blue);font:inherit;font-weight:800;cursor:pointer}
+.tk .bw+b{min-width:28px}
+@media(max-width:640px){.tk{padding:16px 12px 10px}.tk table{min-width:640px;font-size:12.5px}.tk .bw{width:80px}.track{margin-top:-20px}}
+.tk-foot{font-size:11.5px;color:var(--sub);margin-top:6px}
 .empty{padding:80px 0;text-align:center;color:var(--sub)}
 
 /* 재생 창 */
@@ -155,6 +178,7 @@ footer{padding:30px 0 50px;text-align:center;color:#94a3b8;font-size:13px}
   <div class="stats" id="stats"></div>
 </div></section>
 
+<section class="track w" id="track"></section>
 <div class="tools"><div class="w">
   <div class="row1">
     <div class="tabs" id="tabs"></div>
@@ -727,6 +751,29 @@ fetch('유튜브영상.json').then(r=>r.ok?r.json():[]).then(list=>{
   숫자그리기(); 그리기();
 }).catch(()=>{});
 fetch('구글광고.json').then(r=>r.ok?r.json():[]).then(list=>{ 구글=list; 그리기(); }).catch(()=>{});
+let 현황열림=false;
+function 현황그리기(d){
+  const rows=d.rows.slice().sort((a,b)=>(b.meta??-1)-(a.meta??-1)||(b.g30??-1)-(a.g30??-1));
+  const max=Math.max(...rows.map(r=>r.meta||0),1);
+  const 보일=현황열림?rows:rows.slice(0,10);
+  const 우리=rows.findIndex(r=>r.ours);
+  const 줄=(r,i)=>`<tr class="r${r.ours?' ours':''}" data-n="${r.name}">
+     <td class="rk">${i+1}</td><td class="nm">${r.name}</td>
+     <td><div class="mb">${r.meta==null?'<span class="na">미조회</span>':`<span class="bw"><i style="width:${Math.max(2,r.meta/max*100)}%"></i></span><b>${r.meta}</b>`}</div></td>
+     <td>${r.metaNew?`<span class="nw">+${r.metaNew}</span>`:'<span class="na">-</span>'}</td>
+     <td>${r.g30==null?'<span class="na">-</span>':`<b>${r.g30}</b>`}</td>
+     <td>${r.naver?`${r.naver}회`:'<span class="na">-</span>'}</td>
+     <td class="memo">${r.memo||''}</td></tr>`;
+  let body=보일.map(줄).join('');
+  if(!현황열림 && 우리>=10) body+=줄(rows[우리],우리);
+  $('track').innerHTML=`<div class="tk"><div class="tk-h"><h2>장기렌트 업체별 지금 돌리는 광고</h2><span>기준 ${d.기준} · 줄을 누르면 그 업체 광고를 보여줍니다</span></div>
+   <div class="tk-wrap"><table><thead><tr><th></th><th>업체</th><th>인스타·페북 게재 중</th><th>최근 30일 새 광고</th><th>구글 최근 30일</th><th>네이버 파워링크</th><th>메모</th></tr></thead><tbody>${body}</tbody></table></div>
+   <button class="tk-more" id="tkm">${현황열림?'접기 ▲':`전체 ${rows.length}곳 보기 ▼`}</button>
+   <p class="tk-foot">인스타·페북 = 메타 광고 라이브러리 '게재 중' 광고 수(동영상+이미지) · 구글 = 광고 투명성 센터 최근 30일 소재 수 · 네이버 = 검색어 14개에서 파워링크 노출 횟수 · 수집 시점 기준이며 실시간 아님</p></div>`;
+  $('tkm').onclick=()=>{현황열림=!현황열림; 현황그리기(d);};
+  $('track').querySelectorAll('tr.r').forEach(tr=>tr.onclick=()=>{ 탭='인스타·페북 광고'; 태그=''; $('q').value=tr.dataset.n.replace(/\(.*\)/,'').trim(); 그리기(); scrollTo({top:document.querySelector('.tools').offsetTop,behavior:'smooth'}); });
+}
+fetch('업체현황.json').then(r=>r.ok?r.json():null).then(d=>{ if(d) 현황그리기(d); }).catch(()=>{});
 fetch('구글기간.json').then(r=>r.ok?r.json():{}).then(o=>{ 구글기간=o; 그리기(); }).catch(()=>{});
 fetch('네이버광고.json').then(r=>r.ok?r.json():[]).then(list=>{ 네이버=list; 그리기(); }).catch(()=>{});
 </script>

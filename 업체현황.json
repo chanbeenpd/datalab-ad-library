@@ -1,0 +1,275 @@
+{
+ "기준": "2026-11-19 오전",
+ "rows": [
+  {
+   "name": "차즘",
+   "meta": 93,
+   "metaNew": 84,
+   "g30": 28,
+   "g7": 28,
+   "naver": 0,
+   "memo": "",
+   "ours": false
+  },
+  {
+   "name": "롯데렌터카",
+   "meta": 72,
+   "metaNew": 69,
+   "g30": 300,
+   "g7": 200,
+   "naver": 10,
+   "memo": "메타는 장기렌트 관련 72편만(전체 162편 중 G car 카셰어링 제외) · 구글은 단기렌트·중고차 포함",
+   "ours": false
+  },
+  {
+   "name": "공카",
+   "meta": 122,
+   "metaNew": 122,
+   "g30": null,
+   "g7": null,
+   "naver": 2,
+   "memo": "광고주명에 '공카'가 들어간 광고 전체(장기렌트 외 광고 포함 가능)",
+   "ours": false
+  },
+  {
+   "name": "오토드림",
+   "meta": 76,
+   "metaNew": 56,
+   "g30": null,
+   "g7": null,
+   "naver": 0,
+   "memo": "",
+   "ours": false
+  },
+  {
+   "name": "카온플랜",
+   "meta": 55,
+   "metaNew": 37,
+   "g30": null,
+   "g7": null,
+   "naver": 1,
+   "memo": "",
+   "ours": false
+  },
+  {
+   "name": "JP오토모빌",
+   "meta": 46,
+   "metaNew": 46,
+   "g30": null,
+   "g7": null,
+   "naver": 0,
+   "memo": "",
+   "ours": false
+  },
+  {
+   "name": "카빌리지",
+   "meta": 39,
+   "metaNew": 11,
+   "g30": 10,
+   "g7": 10,
+   "naver": 4,
+   "memo": "",
+   "ours": false
+  },
+  {
+   "name": "타다와",
+   "meta": 30,
+   "metaNew": 13,
+   "g30": null,
+   "g7": null,
+   "naver": 0,
+   "memo": "",
+   "ours": false
+  },
+  {
+   "name": "SK렌터카",
+   "meta": 29,
+   "metaNew": 15,
+   "g30": 0,
+   "g7": 0,
+   "naver": 2,
+   "memo": "메타는 단기렌트 광고 포함 가능",
+   "ours": false
+  },
+  {
+   "name": "최저카",
+   "meta": 25,
+   "metaNew": 21,
+   "g30": null,
+   "g7": null,
+   "naver": 0,
+   "memo": "",
+   "ours": false
+  },
+  {
+   "name": "원코(국내1위 장기렌트·리스)",
+   "meta": 18,
+   "metaNew": 11,
+   "g30": null,
+   "g7": null,
+   "naver": 0,
+   "memo": "",
+   "ours": false
+  },
+  {
+   "name": "차살때",
+   "meta": 18,
+   "metaNew": 18,
+   "g30": null,
+   "g7": null,
+   "naver": 0,
+   "memo": "조회 중 일부만 불러와짐(검색 30건 중 18건 확인)",
+   "ours": false
+  },
+  {
+   "name": "차맵(우파)",
+   "meta": 17,
+   "metaNew": 8,
+   "g30": 6,
+   "g7": 6,
+   "naver": 3,
+   "memo": "",
+   "ours": false
+  },
+  {
+   "name": "렌트맨",
+   "meta": 16,
+   "metaNew": 1,
+   "g30": null,
+   "g7": null,
+   "naver": 0,
+   "memo": "",
+   "ours": false
+  },
+  {
+   "name": "바름카",
+   "meta": 15,
+   "metaNew": 7,
+   "g30": null,
+   "g7": null,
+   "naver": 0,
+   "memo": "",
+   "ours": false
+  },
+  {
+   "name": "리스렌트성지",
+   "meta": 12,
+   "metaNew": 1,
+   "g30": 19,
+   "g7": 16,
+   "naver": 1,
+   "memo": "",
+   "ours": false
+  },
+  {
+   "name": "헤이신차",
+   "meta": 9,
+   "metaNew": 0,
+   "g30": null,
+   "g7": null,
+   "naver": 0,
+   "memo": "",
+   "ours": false
+  },
+  {
+   "name": "카프리오",
+   "meta": 6,
+   "metaNew": 5,
+   "g30": null,
+   "g7": null,
+   "naver": 0,
+   "memo": "",
+   "ours": false
+  },
+  {
+   "name": "유어카",
+   "meta": 6,
+   "metaNew": 6,
+   "g30": null,
+   "g7": null,
+   "naver": 0,
+   "memo": "",
+   "ours": false
+  },
+  {
+   "name": "투데이즈카",
+   "meta": 2,
+   "metaNew": 2,
+   "g30": null,
+   "g7": null,
+   "naver": 0,
+   "memo": "",
+   "ours": false
+  },
+  {
+   "name": "아마존카",
+   "meta": null,
+   "metaNew": null,
+   "g30": 68,
+   "g7": 65,
+   "naver": 2,
+   "memo": "메타 미조회",
+   "ours": false
+  },
+  {
+   "name": "티키타카",
+   "meta": null,
+   "metaNew": null,
+   "g30": 37,
+   "g7": 37,
+   "naver": 11,
+   "memo": "메타 미조회",
+   "ours": false
+  },
+  {
+   "name": "KB캐피탈 제휴(장기렌트)",
+   "meta": null,
+   "metaNew": null,
+   "g30": 7,
+   "g7": 6,
+   "naver": 10,
+   "memo": "메타 미조회",
+   "ours": false
+  },
+  {
+   "name": "렌트몰",
+   "meta": null,
+   "metaNew": null,
+   "g30": 7,
+   "g7": 13,
+   "naver": 7,
+   "memo": "메타 미조회 · 구글 조회값 불안정",
+   "ours": false
+  },
+  {
+   "name": "겟차",
+   "meta": null,
+   "metaNew": null,
+   "g30": 2,
+   "g7": 2,
+   "naver": 0,
+   "memo": "메타 미조회",
+   "ours": false
+  },
+  {
+   "name": "카베이",
+   "meta": null,
+   "metaNew": null,
+   "g30": 0,
+   "g7": 0,
+   "naver": 0,
+   "memo": "메타 조회 실패(재시도 필요)",
+   "ours": false
+  },
+  {
+   "name": "다타랩",
+   "meta": 3,
+   "metaNew": 0,
+   "g30": 0,
+   "g7": 0,
+   "naver": 13,
+   "memo": "우리 회사 · 메타 조회값 불안정(1차 3편, 2차 0편)",
+   "ours": true
+  }
+ ]
+}
