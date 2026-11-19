@@ -108,6 +108,7 @@ details dd{margin:0 0 6px;line-height:1.55}
 .kc-meta b{color:var(--ink)}
 .kc-meta span{background:#f3e8ff;color:#7c3aed;font-weight:800;font-size:12px;padding:2px 9px;border-radius:99px}
 .kc-pt{font-size:13px;color:var(--sub);background:#f8fafc;border-radius:10px;padding:8px 10px}
+.more{display:block;margin:18px auto 0;border:1px solid var(--line);background:#fff;border-radius:99px;padding:11px 22px;font:inherit;font-weight:800;color:var(--blue);cursor:pointer}
 .empty{padding:80px 0;text-align:center;color:var(--sub)}
 
 /* 재생 창 */
@@ -537,6 +538,7 @@ const 분류순 = [
   ['숏폼 광고','릴스·쇼츠용 세로 광고'],
   ['브랜드 광고','브랜드를 앞세운 정식 광고'],
   ['크리에이터 PPL','유튜버 채널에 녹인 협찬 영상'],
+  ['인스타·페북 광고','메타 광고 라이브러리에서 지금 집행 중인 장기렌트 광고 전체 (자동 수집, 광고주별)'],
   ['광고 키카피 문구','장기렌트와 상관없이 모아 둔 한 줄 광고 문구']
 ];
 const 개수 = k => k==='광고 키카피 문구' ? 키카피.length : k==='전체' ? 광고.length : 광고.filter(a=>a.분류===k).length;
@@ -544,16 +546,17 @@ const 우리 = ['다타랩','다타랩TV'];
 const $ = id => document.getElementById(id);
 let 탭='전체', 태그='';
 
-$('stats').innerHTML = [
+function 숫자그리기(){ $('stats').innerHTML = [
   [광고.length,'광고 영상'],
   ...분류순.filter(([k])=>k!=='광고 키카피 문구').map(([k])=>[개수(k),k]),
   [new Set(광고.map(a=>a.브랜드.replace('TV',''))).size,'브랜드']
-].map(([n,t])=>`<div class="stat"><b>${n}</b><span>${t}</span></div>`).join('');
+].map(([n,t])=>`<div class="stat"><b>${n}</b><span>${t}</span></div>`).join(''); }
+숫자그리기();
 
 function 탭그리기(){
   $('tabs').innerHTML = [['전체',개수('전체')],...분류순.map(([k])=>[k,개수(k)])]
     .map(([k,n])=>`<button class="tab${k===탭?' on':''}${k==='광고 키카피 문구'?' sep':''}" data-k="${k}">${k}<small>${n}</small></button>`).join('');
-  const 태그들=[...new Set([...광고.filter(a=>탭==='전체'||a.분류===탭).flatMap(a=>a.태그), ...(탭==='광고 키카피 문구'?키카피.map(c=>c.기법):[])])];
+  const 태그들=[...new Set([...광고.filter(a=>(탭==='전체'&&!a.자동)||a.분류===탭).flatMap(a=>a.태그), ...(탭==='광고 키카피 문구'?키카피.map(c=>c.기법):[])])];
   if(태그 && !태그들.includes(태그)) 태그='';
   $('chips').innerHTML = `<button class="chip all${태그===''?' on':''}" data-t="">전체</button>` + 태그들.map(t=>`<button class="chip${t===태그?' on':''}" data-t="${t}">${t}</button>`).join('');
 }
@@ -562,6 +565,7 @@ $('chips').onclick=e=>{const b=e.target.closest('.chip'); if(!b) return; 태그 
 $('q').oninput=()=>그리기();
 
 function 카드(a){
+  if(a.자동) return 자동카드(a);
   const i=광고.indexOf(a), yt=a.유튜브, thumb=a.썸네일||`https://i.ytimg.com/vi/${yt}/hqdefault.jpg`;
   return `<article class="card">
     <div class="media${(!yt||a.세로)?' tall':''}" data-i="${i}"><img src="${thumb}" alt="" loading="lazy"><span class="play"></span>
@@ -575,6 +579,18 @@ function 카드(a){
       <details><summary>구조 분석</summary><dl>
         <dt>흐름</dt><dd>${a.구조}</dd><dt>설득 장치</dt><dd>${a.장치}</dd>
       </dl></details>
+    </div></article>`;
+}
+function 자동카드(a){
+  const i=광고.indexOf(a), 줄=a.문구.split('\n').filter(x=>x.trim());
+  return `<article class="card">
+    <div class="media tall" data-i="${i}"><img src="${a.썸네일}" alt="" loading="lazy"><span class="play"></span>
+      <span class="src">${a.브랜드}</span><span class="fmt">${a.시작?a.시작+' 게재':''}</span><span class="len">${a.길이}</span></div>
+    <div class="body">
+      <h3>${줄[0]||a.브랜드}</h3>
+      ${줄.length>1?`<div class="hook">${줄.slice(1,3).join(' ')}</div>`:''}
+      <details><summary>광고 문구 전체</summary><dl><dd style="white-space:pre-line">${a.문구}</dd>
+        <dd><a href="https://www.facebook.com/ads/library/?id=${a.라이브러리}" target="_blank" rel="noopener" style="color:var(--blue);font-weight:700">메타 광고 라이브러리에서 보기 →</a></dd></dl></details>
     </div></article>`;
 }
 function 카피카드(c){
@@ -592,8 +608,11 @@ function 그리기(){
     if(분류==='광고 키카피 문구') continue;
     const 목록=광고.filter(a=>a.분류===분류&&맞음(a));
     if(!목록.length) continue;
+    const 접기 = 분류==='인스타·페북 광고' && 탭==='전체' && !k;
+    const 보일 = 접기 ? 목록.slice(0,8) : 목록;
     html+=`<section class="sec"><div class="sec-h"><h2>${분류}</h2><span>${목록.length}편</span><p>${설명}</p></div>
-      <div class="grid ${분류==='숏폼 광고'?'v':'h'}">${목록.map(카드).join('')}</div></section>`;
+      <div class="grid ${(분류==='숏폼 광고'||분류==='인스타·페북 광고')?'v':'h'}">${보일.map(카드).join('')}</div>
+      ${접기?`<button class="more" data-k="인스타·페북 광고">${목록.length}편 전체 보기 →</button>`:''}</section>`;
   }
   if(탭==='광고 키카피 문구'){
     const 목록=키카피.filter(c=>(!태그||c.기법===태그)&&(!k||JSON.stringify(c).toLowerCase().includes(k)));
@@ -603,6 +622,7 @@ function 그리기(){
   $('main').innerHTML = html || '<div class="empty">찾는 광고가 없습니다.</div>';
 }
 $('main').onclick=e=>{
+  const mb=e.target.closest('.more'); if(mb){ 탭=mb.dataset.k; 태그=''; 그리기(); scrollTo({top:document.querySelector('.tools').offsetTop}); return; }
   const m=e.target.closest('.media'); if(!m) return;
   const a=광고[+m.dataset.i];
   $('box').className='box'+((a.유튜브&&!a.세로)?'':' v');
@@ -616,6 +636,11 @@ $('x').onclick=닫기;
 $('modal').onclick=e=>{ if(e.target.id==='modal') 닫기(); };
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') 닫기(); });
 그리기();
+fetch('메타광고.json').then(r=>r.ok?r.json():[]).then(list=>{
+  list.forEach(m=>광고.push({자동:true, 분류:'인스타·페북 광고', 브랜드:m.adv||'광고주 미상', 제목:'', 문구:m.body||'', 시작:m.start||'', 라이브러리:m.id,
+    길이: m.dur?`${Math.floor(m.dur/60)}:${String(m.dur%60).padStart(2,'0')}`:'', 파일:`메타/v_${m.id}.mp4`, 썸네일:`메타/v_${m.id}.jpg`, 태그:[m.adv||'광고주 미상']}));
+  숫자그리기(); 그리기();
+}).catch(()=>{});
 </script>
 </body>
 </html>
