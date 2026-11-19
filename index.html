@@ -116,6 +116,7 @@ details dd{margin:0 0 6px;line-height:1.55}
 .modal video,.modal iframe{display:block;width:100%;border:0;border-radius:16px;background:#000}
 .modal .box.v video{max-height:86vh}
 .modal iframe{aspect-ratio:16/9}
+.modal .box.v iframe{aspect-ratio:9/16;max-height:86vh}
 .modal .x{position:absolute;right:0;top:-46px;width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.15);color:#fff;font-size:22px;cursor:pointer}
 footer{padding:30px 0 50px;text-align:center;color:#94a3b8;font-size:13px}
 
@@ -230,6 +231,14 @@ const 광고 = [
    장치:'전문가 얼굴 PIP(원형) + 증거 화면, 가격 대비, 보증 항목 리스트',
    훔칠것:'말하는 사람 얼굴을 원형 PIP로 띄우고 뒤에 증거 화면 — 설명 숏폼 편집 틀',
    태그:['보증·환불','전문가']},
+  {제목:'3,740만 원 그랜저 깡통 차주', 브랜드:'닥신TV', 업종:'차 구독 언급', 분류:'숏폼 광고', 형식:'차주 인터뷰 숏폼', 길이:'0:57',
+   유튜브:'MMEsbeqQhXg', 세로:true, 썸네일:'썸네일/광고13.jpg',
+   훅:'"차가 너무 멋있어서 그런데요, 지금 타고 계신 차는 어떤 차인지 여쭤봐도 될까요?"',
+   구조:'차주 길거리 인터뷰 → 차종·계약 방식(쏘카플랜, 1개월 약정, 월 110만 원) 자연 언급 → 직업·좋은 차 타는 비법 → 공부 얘기로 웃음 마무리',
+   장치:'"차주 인터뷰" 포맷(광고 같지 않음), 상단 고정 자막(가격+차종), 사람 이야기로 끝까지 보게 함 — 조회수 167만',
+   훔칠것:'광고가 아니라 "차주 인터뷰"처럼 찍고 계약 방식·월 금액만 슬쩍 — 장기렌트 고객 인터뷰 숏폼으로 응용',
+   주의:'광고 여부 표기 확인 안 됨 — 광고형 구성 참고용(팀장님 지정)',
+   태그:['차주 인터뷰','광고 같지 않은 광고']},
   {제목:'모델 지안 × 다타랩 브랜드 광고', 브랜드:'다타랩TV', 분류:'브랜드 광고', 형식:'모델 브랜드 광고', 길이:'1:22',
    유튜브:'nt9dny6HXI4',
    훅:'"현금으로 차를 사는 게 제일 싸다고요? 아닐 수도 있어요"',
@@ -334,9 +343,9 @@ $('chips').onclick=e=>{const b=e.target.closest('.chip'); if(!b) return; 태그 
 $('q').oninput=()=>그리기();
 
 function 카드(a){
-  const i=광고.indexOf(a), yt=a.유튜브, thumb=yt?`https://i.ytimg.com/vi/${yt}/hqdefault.jpg`:a.썸네일;
+  const i=광고.indexOf(a), yt=a.유튜브, thumb=a.썸네일||`https://i.ytimg.com/vi/${yt}/hqdefault.jpg`;
   return `<article class="card">
-    <div class="media${!yt?' tall':''}" data-i="${i}"><img src="${thumb}" alt="" loading="lazy"><span class="play"></span>
+    <div class="media${(!yt||a.세로)?' tall':''}" data-i="${i}"><img src="${thumb}" alt="" loading="lazy"><span class="play"></span>
       <span class="src${우리.includes(a.브랜드)?' our':''}">${a.브랜드}</span><span class="fmt">${a.형식}</span><span class="len">${a.길이}</span></div>
     <div class="body">
       <h3>${a.업종?`<span class="ind">${a.업종}</span>`:''}${a.제목}</h3>
@@ -377,7 +386,7 @@ function 그리기(){
 $('main').onclick=e=>{
   const m=e.target.closest('.media'); if(!m) return;
   const a=광고[+m.dataset.i];
-  $('box').className='box'+(a.유튜브?'':' v');
+  $('box').className='box'+((a.유튜브&&!a.세로)?'':' v');
   $('player').innerHTML = a.유튜브
     ? `<iframe src="https://www.youtube.com/embed/${a.유튜브}?autoplay=1&playsinline=1" allow="autoplay;encrypted-media;fullscreen" allowfullscreen></iframe>`
     : `<video src="${a.파일}" controls autoplay playsinline></video>`;
