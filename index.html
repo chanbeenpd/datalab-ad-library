@@ -760,6 +760,7 @@ function 현황그리기(d){
   const 줄=(r,i)=>`<tr class="r${r.ours?' ours':''}" data-n="${r.name}">
      <td class="rk">${i+1}</td><td class="nm">${r.name}</td>
      <td><div class="mb">${r.meta==null?'<span class="na">미조회</span>':`<span class="bw"><i style="width:${Math.max(2,r.meta/max*100)}%"></i></span><b>${r.meta}</b>`}</div></td>
+     <td>${r.video==null?'<span class="na">-</span>':`🎬 ${r.video}`}</td><td>${r.image==null?'<span class="na">-</span>':`🖼 ${r.image}`}</td>
      <td>${r.metaNew?`<span class="nw">+${r.metaNew}</span>`:'<span class="na">-</span>'}</td>
      <td>${r.g30==null?'<span class="na">-</span>':`<b>${r.g30}</b>`}</td>
      <td>${r.naver?`${r.naver}회`:'<span class="na">-</span>'}</td>
@@ -767,9 +768,9 @@ function 현황그리기(d){
   let body=보일.map(줄).join('');
   if(!현황열림 && 우리>=10) body+=줄(rows[우리],우리);
   $('track').innerHTML=`<div class="tk"><div class="tk-h"><h2>장기렌트 업체별 지금 돌리는 광고</h2><span>기준 ${d.기준} · 줄을 누르면 그 업체 광고를 보여줍니다</span></div>
-   <div class="tk-wrap"><table><thead><tr><th></th><th>업체</th><th>인스타·페북 게재 중</th><th>최근 30일 새 광고</th><th>구글 최근 30일</th><th>네이버 파워링크</th><th>메모</th></tr></thead><tbody>${body}</tbody></table></div>
+   <div class="tk-wrap"><table><thead><tr><th></th><th>업체</th><th>인스타·페북 게재 중</th><th>동영상</th><th>이미지</th><th>최근 30일 새 광고</th><th>구글 최근 30일</th><th>네이버 파워링크</th><th>메모</th></tr></thead><tbody>${body}</tbody></table></div>
    <button class="tk-more" id="tkm">${현황열림?'접기 ▲':`전체 ${rows.length}곳 보기 ▼`}</button>
-   <p class="tk-foot">인스타·페북 = 메타 광고 라이브러리 '게재 중' 광고 수(동영상+이미지) · 구글 = 광고 투명성 센터 최근 30일 소재 수 · 네이버 = 검색어 14개에서 파워링크 노출 횟수 · 수집 시점 기준이며 실시간 아님</p></div>`;
+   <p class="tk-foot">인스타·페북 = 메타 광고 라이브러리 '게재 중' 광고 등록 건수 (같은 광고를 세로·가로·문구별로 나눠 올리면 각각 1건 — 차즘은 93건 중 서로 다른 광고 약 33종) · 구글 = 광고 투명성 센터 최근 30일 소재 수 · 네이버 = 검색어 14개에서 파워링크 노출 횟수 · 수집 시점 기준이며 실시간 아님</p></div>`;
   $('tkm').onclick=()=>{현황열림=!현황열림; 현황그리기(d);};
   $('track').querySelectorAll('tr.r').forEach(tr=>tr.onclick=()=>{ 탭='인스타·페북 광고'; 태그=''; $('q').value=tr.dataset.n.replace(/\(.*\)/,'').trim(); 그리기(); scrollTo({top:document.querySelector('.tools').offsetTop,behavior:'smooth'}); });
 }

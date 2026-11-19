@@ -9,7 +9,9 @@
    "g7": 28,
    "naver": 0,
    "memo": "",
-   "ours": false
+   "ours": false,
+   "video": 75,
+   "image": 18
   },
   {
    "name": "롯데렌터카",
@@ -18,8 +20,10 @@
    "g30": 300,
    "g7": 200,
    "naver": 10,
-   "memo": "메타는 장기렌트 관련 72편만(전체 162편 중 G car 카셰어링 제외) · 구글은 단기렌트·중고차 포함",
-   "ours": false
+   "memo": "메타는 장기렌트 관련 72편만(전체 162편 중 G car 카셰어링 제외) · 구글은 단기렌트·중고차 포함 · 동영상/이미지 구분은 전체 162편 기준 미집계",
+   "ours": false,
+   "video": null,
+   "image": null
   },
   {
    "name": "공카",
@@ -29,7 +33,9 @@
    "g7": null,
    "naver": 2,
    "memo": "광고주명에 '공카'가 들어간 광고 전체(장기렌트 외 광고 포함 가능)",
-   "ours": false
+   "ours": false,
+   "video": 35,
+   "image": 87
   },
   {
    "name": "오토드림",
@@ -39,7 +45,9 @@
    "g7": null,
    "naver": 0,
    "memo": "",
-   "ours": false
+   "ours": false,
+   "video": 61,
+   "image": 15
   },
   {
    "name": "카온플랜",
@@ -49,7 +57,9 @@
    "g7": null,
    "naver": 1,
    "memo": "",
-   "ours": false
+   "ours": false,
+   "video": 41,
+   "image": 14
   },
   {
    "name": "JP오토모빌",
@@ -59,7 +69,9 @@
    "g7": null,
    "naver": 0,
    "memo": "",
-   "ours": false
+   "ours": false,
+   "video": 46,
+   "image": 0
   },
   {
    "name": "카빌리지",
@@ -69,7 +81,9 @@
    "g7": 10,
    "naver": 4,
    "memo": "",
-   "ours": false
+   "ours": false,
+   "video": 38,
+   "image": 1
   },
   {
    "name": "타다와",
@@ -79,7 +93,9 @@
    "g7": null,
    "naver": 0,
    "memo": "",
-   "ours": false
+   "ours": false,
+   "video": 20,
+   "image": 10
   },
   {
    "name": "SK렌터카",
@@ -89,7 +105,9 @@
    "g7": 0,
    "naver": 2,
    "memo": "메타는 단기렌트 광고 포함 가능",
-   "ours": false
+   "ours": false,
+   "video": 11,
+   "image": 18
   },
   {
    "name": "최저카",
@@ -99,7 +117,9 @@
    "g7": null,
    "naver": 0,
    "memo": "",
-   "ours": false
+   "ours": false,
+   "video": 20,
+   "image": 5
   },
   {
    "name": "원코(국내1위 장기렌트·리스)",
@@ -109,7 +129,9 @@
    "g7": null,
    "naver": 0,
    "memo": "",
-   "ours": false
+   "ours": false,
+   "video": 18,
+   "image": 0
   },
   {
    "name": "차살때",
@@ -119,7 +141,9 @@
    "g7": null,
    "naver": 0,
    "memo": "조회 중 일부만 불러와짐(검색 30건 중 18건 확인)",
-   "ours": false
+   "ours": false,
+   "video": 3,
+   "image": 15
   },
   {
    "name": "차맵(우파)",
@@ -129,7 +153,9 @@
    "g7": 6,
    "naver": 3,
    "memo": "",
-   "ours": false
+   "ours": false,
+   "video": 10,
+   "image": 7
   },
   {
    "name": "렌트맨",
@@ -139,7 +165,9 @@
    "g7": null,
    "naver": 0,
    "memo": "",
-   "ours": false
+   "ours": false,
+   "video": 16,
+   "image": 0
   },
   {
    "name": "바름카",
@@ -149,7 +177,9 @@
    "g7": null,
    "naver": 0,
    "memo": "",
-   "ours": false
+   "ours": false,
+   "video": 13,
+   "image": 2
   },
   {
    "name": "리스렌트성지",
@@ -159,7 +189,9 @@
    "g7": 16,
    "naver": 1,
    "memo": "",
-   "ours": false
+   "ours": false,
+   "video": 12,
+   "image": 0
   },
   {
    "name": "헤이신차",
@@ -169,7 +201,9 @@
    "g7": null,
    "naver": 0,
    "memo": "",
-   "ours": false
+   "ours": false,
+   "video": 4,
+   "image": 5
   },
   {
    "name": "카프리오",
@@ -179,7 +213,9 @@
    "g7": null,
    "naver": 0,
    "memo": "",
-   "ours": false
+   "ours": false,
+   "video": 6,
+   "image": 0
   },
   {
    "name": "유어카",
@@ -189,7 +225,9 @@
    "g7": null,
    "naver": 0,
    "memo": "",
-   "ours": false
+   "ours": false,
+   "video": 6,
+   "image": 0
   },
   {
    "name": "투데이즈카",
@@ -199,7 +237,9 @@
    "g7": null,
    "naver": 0,
    "memo": "",
-   "ours": false
+   "ours": false,
+   "video": 2,
+   "image": 0
   },
   {
    "name": "아마존카",
@@ -209,7 +249,9 @@
    "g7": 65,
    "naver": 2,
    "memo": "메타 미조회",
-   "ours": false
+   "ours": false,
+   "video": null,
+   "image": null
   },
   {
    "name": "티키타카",
@@ -219,7 +261,9 @@
    "g7": 37,
    "naver": 11,
    "memo": "메타 미조회",
-   "ours": false
+   "ours": false,
+   "video": null,
+   "image": null
   },
   {
    "name": "KB캐피탈 제휴(장기렌트)",
@@ -229,7 +273,9 @@
    "g7": 6,
    "naver": 10,
    "memo": "메타 미조회",
-   "ours": false
+   "ours": false,
+   "video": null,
+   "image": null
   },
   {
    "name": "렌트몰",
@@ -239,7 +285,9 @@
    "g7": 13,
    "naver": 7,
    "memo": "메타 미조회 · 구글 조회값 불안정",
-   "ours": false
+   "ours": false,
+   "video": null,
+   "image": null
   },
   {
    "name": "겟차",
@@ -249,17 +297,21 @@
    "g7": 2,
    "naver": 0,
    "memo": "메타 미조회",
-   "ours": false
+   "ours": false,
+   "video": null,
+   "image": null
   },
   {
    "name": "카베이",
-   "meta": null,
+   "meta": 2,
    "metaNew": null,
    "g30": 0,
    "g7": 0,
    "naver": 0,
-   "memo": "메타 조회 실패(재시도 필요)",
-   "ours": false
+   "memo": "메타 게재 중 2건 확인 · 구글 최근 30일 0",
+   "ours": false,
+   "video": null,
+   "image": null
   },
   {
    "name": "다타랩",
@@ -268,8 +320,22 @@
    "g30": 0,
    "g7": 0,
    "naver": 13,
-   "memo": "우리 회사 · 메타 조회값 불안정(1차 3편, 2차 0편)",
-   "ours": true
+   "memo": "우리 회사 · 페이지 '다타랩:신차전문플랜' 게재 중 3건(그중 1건은 차종 13개 카드형) · 광고 문구에 '다타랩'이 없는 광고는 이 방식으로 안 잡힘",
+   "ours": true,
+   "video": null,
+   "image": null
+  },
+  {
+   "name": "KS오토플랜",
+   "meta": 0,
+   "metaNew": null,
+   "g30": null,
+   "g7": null,
+   "naver": 0,
+   "video": null,
+   "image": null,
+   "ours": false,
+   "memo": "메타에서 'KS오토플랜' 검색 시 일반 고객용 광고 없음(신차 영업사원 모집 광고만 확인) · 구글·네이버 미조회"
   }
  ]
 }
