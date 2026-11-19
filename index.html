@@ -213,6 +213,8 @@ details dd{margin:0 0 6px;line-height:1.55}
 .tk-q{display:block;margin:0 0 12px;width:100%;max-width:320px;padding:9px 14px;border-radius:12px;border:1px solid var(--line);font:inherit;font-size:14px;outline:none}
 .tk-q:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(30,83,242,.12)}
 .hl{display:inline-grid;place-items:center;height:22px;padding:0 8px;border-radius:99px;background:#eef3ff;color:var(--blue);font-size:11px;font-weight:800;text-decoration:none;white-space:nowrap}.hl:hover{background:var(--blue);color:#fff}.hl.fb{background:#f1f5f9;color:#64748b}.pod.p1 .hl{background:rgba(255,255,255,.18);color:#fff}
+.rkc.m1{background:#fde68a;color:#92400e}.rkc.m2{background:#e2e8f0;color:#334155}.rkc.m3{background:#fed7aa;color:#9a3412}
+.yth{display:flex;align-items:center;gap:10px}.ytl{width:34px;height:24px;flex:none}
 .empty{padding:80px 0;text-align:center;color:var(--sub)}
 
 /* 재생 창 */
@@ -834,8 +836,8 @@ function 현황그리기(d){
   const rows=d.rows.slice().sort((a,b)=>(b.meta??-1)-(a.meta??-1)||(b.g30??-1)-(a.g30??-1));
   const max=Math.max(...rows.map(r=>r.meta||0),1);
   const 합=k=>rows.reduce((s,r)=>s+(r[k]||0),0);
-  const top=rows.slice(0,3), rest=rows.slice(3);
-  const 보일=현황검색?rest.filter(r=>r.name.toLowerCase().includes(현황검색.toLowerCase())):(현황열림?rest:rest.slice(0,17));
+  const rest=rows;
+  const 보일=현황검색?rest.filter(r=>r.name.toLowerCase().includes(현황검색.toLowerCase())):(현황열림?rest:rest.slice(0,20));
   const 우리=rest.findIndex(r=>r.ours);
   const pod=(r,i)=>`<div class="pod p${i+1}" data-n="${r.name}"><span class="rkb">0${i+1}</span>
      <div class="nm">${아바(r.name)}${r.name}${링크(r)}</div>
@@ -844,7 +846,7 @@ function 현황그리기(d){
      <div class="split">${비율(r)}<div class="lg">${r.video!=null?`<span>동영상 ${r.video}</span><span class="m">이미지 ${r.image}</span>`:'<span>형식 미집계</span>'}</div></div></div>`;
   const 작은=r=>[r.metaNew?`<span class="pill g">30일 +${r.metaNew}</span>`:'', r.g30?`<span class="pill b">구글 ${r.g30}</span>`:'', r.naver?`<span class="pill n">네이버 ${r.naver}회</span>`:''].join('');
   const 줄=(r,i)=>`<tr class="r${r.ours?' ours':''}" data-n="${r.name}">
-     <td class="rk"><span class="rkc">${i+4}</span></td>
+     <td class="rk"><span class="rkc${i<3?' m'+(i+1):''}">${i+1}</span></td>
      <td class="nmw"><div class="nmc">${아바(r.name)}${r.name}${r.ours?'<span class="ourb">우리</span>':''}${링크(r)}</div></td>
      <td class="mt"><div class="mb">${r.meta==null?'<span class="na">미조회</span>':`<span class="bar"><i style="width:${Math.max(2,r.meta/max*100)}%"></i></span><b>${r.meta}</b>`}</div></td>
      <td class="x vi">${r.video==null?'<span class="na">-</span>':`동영상 <b>${r.video}</b> · 이미지 <b>${r.image}</b>`}</td>
@@ -854,11 +856,10 @@ function 현황그리기(d){
      <td class="x c">${r.memo?`<i class="tip" tabindex="0">i<span>${r.memo}</span></i>`:''}</td>
      <td class="xm">${작은(r)}</td></tr>`;
   let body=보일.map(r=>줄(r,rest.indexOf(r))).join('');
-  if(!현황검색 && !현황열림 && 우리>=17) body+=줄(rest[우리],우리);
+  if(!현황검색 && !현황열림 && 우리>=20) body+=줄(rest[우리],우리);
   $('track').innerHTML=`<div class="tk">
    <div class="tk-h"><div><span class="lab">LIVE TRACKER</span><h2>장기렌트 업체별 지금 돌리는 광고</h2><p>기준 ${d.기준} · 업체를 누르면 그 업체 광고만 모아 봅니다</p></div>
     <div class="tk-kpi"><div><b>${rows.length}곳</b><span>추적 업체</span></div><div><b>${합('meta').toLocaleString()}</b><span>메타 게재 중 합계</span></div><div class="g"><b>+${합('metaNew').toLocaleString()}</b><span>30일 새 광고</span></div></div></div>
-   <div class="tk-top">${top.map(pod).join('')}</div>
    <input class="tk-q" id="tkq" placeholder="업체 이름으로 찾기 (예: 차맵, 카빌리지)" value="${현황검색}">
    <div class="tk-wrap"><table><thead>
     <tr class="grp"><th colspan="2"></th><th colspan="3" class="gm">인스타·페북 (메타)</th><th class="c">구글</th><th class="c">네이버</th><th></th></tr>
@@ -873,7 +874,7 @@ const PPL홈={'시현장기렌트(차맵)':'https://chamap.co.kr','차즘':'http
 fetch('유튜버PPL.json').then(r=>r.ok?r.json():null).then(d=>{ if(!d) return;
   const 묶음={}; d.rows.forEach(r=>(묶음[r.company]=묶음[r.company]||[]).push(r));
   const 표={'진행 중':'on','자체 채널':'self','확인 안 됨':'off','업로드 멈춤':'stop'};
-  $('ppl').innerHTML=`<div class="tk"><div class="tk-h"><div><span class="lab">YOUTUBE PPL</span><h2>장기렌트 업체별 유튜버 광고</h2><p>${d.기준} · 진행 중 = 최근 영상 설명란에 업체 링크·문구가 있음 (말로만 하는 광고는 확인 못 함)</p></div></div>
+  $('ppl').innerHTML=`<div class="tk"><div class="tk-h"><div><span class="lab">YOUTUBE PPL</span><h2 class="yth"><svg class="ytl" viewBox="0 0 28 20" aria-label="YouTube"><rect width="28" height="20" rx="5" fill="#FF0000"/><path d="M11 5.5v9l8-4.5z" fill="#fff"/></svg>장기렌트 업체별 유튜버 광고</h2><p>${d.기준} · 진행 중 = 최근 영상 설명란에 업체 링크·문구가 있음 (말로만 하는 광고는 확인 못 함)</p></div></div>
    <div class="pg">${Object.entries(묶음).map(([c,list])=>`<div class="pc${/지엔에이/.test(c)?' ours':''}"><h3>${아바(c)}${c}${PPL홈[c]?`<a class="hl" href="${PPL홈[c]}" target="_blank" rel="noopener">홈페이지 ↗</a>`:''}<small>${list.filter(x=>x.status==='진행 중').length}곳 진행 중</small></h3>
     ${list.map(x=>`<div class="ch">${x.url?`<a href="${x.url}" target="_blank" rel="noopener">${x.ch}</a>`:`<span>${x.ch}</span>`}<span class="sb">${x.subs}</span><span class="st ${표[x.status]||'off'}">${x.status}</span>${x.note?`<div class="nt">${x.changed?'<b>바뀜</b> · ':''}${x.note}</div>`:''}</div>`).join('')}</div>`).join('')}</div></div>`;
 }).catch(()=>{});
