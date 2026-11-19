@@ -215,6 +215,44 @@ details dd{margin:0 0 6px;line-height:1.55}
 .hl{display:inline-grid;place-items:center;height:22px;padding:0 8px;border-radius:99px;background:#eef3ff;color:var(--blue);font-size:11px;font-weight:800;text-decoration:none;white-space:nowrap}.hl:hover{background:var(--blue);color:#fff}.hl.fb{background:#f1f5f9;color:#64748b}.pod.p1 .hl{background:rgba(255,255,255,.18);color:#fff}
 .rkc.m1{background:#fde68a;color:#92400e}.rkc.m2{background:#e2e8f0;color:#334155}.rkc.m3{background:#fed7aa;color:#9a3412}
 .yth{display:flex;align-items:center;gap:10px}.ytl{width:34px;height:24px;flex:none}
+
+/* 현황판 v3 (보고용) */
+.sum{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:4px 0 22px}
+.sum>div{border:1px solid var(--line);border-radius:20px;padding:18px 20px;background:linear-gradient(160deg,#fff,#f6f8fd)}
+.sum span{font-size:12.5px;font-weight:800;color:var(--sub);letter-spacing:.02em}
+.sum b{display:block;font-size:27px;font-weight:900;letter-spacing:-.03em;margin:6px 0 4px;line-height:1.2}
+.sum p{font-size:12.5px;color:var(--sub);line-height:1.5}
+.sum .g b{color:#16a34a}
+.sum .o{background:linear-gradient(150deg,#1E53F2,#0b2a8c);border-color:transparent;color:#fff}
+.sum .o span,.sum .o p{color:rgba(255,255,255,.8)}
+.tk-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:12px}
+.tk-bar .tk-q{margin:0}
+.tk-bar .hint{font-size:12.5px;color:var(--sub);font-weight:600}
+.tk table{font-size:15px}
+.tk td{padding:13px 12px}
+.tk th small{font-weight:600;color:#94a3b8;font-size:10.5px}
+.nmt{font-size:15px}
+.th3{display:flex;align-items:center;gap:4px}
+.th3 img{width:40px;height:40px;object-fit:cover;border-radius:8px;border:1px solid var(--line);background:#f1f5f9}
+.th3 span{font-size:11.5px;font-weight:800;color:var(--sub);margin-left:2px}
+.fm{min-width:120px}.fm .sp{height:7px}.fm small{display:block;font-size:11.5px;color:var(--sub);margin-top:4px;white-space:nowrap}
+.chev{font-size:11px;color:#94a3b8}
+.tk tr.open td{background:#f3f7ff}
+.tk tr.det td{padding:0;background:#f8faff;border-bottom:1px solid var(--line)}
+.dt{padding:16px 18px 18px}
+.dm{font-size:13px;color:#475569;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:12px}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.gal a{display:block;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;text-decoration:none;color:var(--ink);transition:transform .15s,box-shadow .15s}
+.gal a:hover{transform:translateY(-2px);box-shadow:0 10px 24px -10px rgba(15,23,42,.3)}
+.gal img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;background:#f1f5f9}
+.gal span{display:block;font-size:11px;font-weight:800;color:var(--blue);padding:7px 9px 0}
+.gal em{display:block;font-style:normal;font-size:11.5px;color:#475569;padding:2px 9px 9px;line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.da{display:flex;align-items:center;gap:10px;margin-top:14px}
+.go{border:0;background:var(--ink);color:#fff;font:inherit;font-size:13px;font-weight:800;padding:9px 16px;border-radius:99px;cursor:pointer}
+@media(max-width:900px){.sum{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.sum{gap:8px}.sum>div{padding:12px 14px}.sum b{font-size:20px}.sum p{font-size:11.5px}.tk-bar .hint{display:none}
+  .tk td.pv{display:none}.tk tr.det{display:block}.tk tr.det td{display:block}.gal{grid-template-columns:repeat(3,1fr);gap:6px}.gal span,.gal em{display:none}}
+
 .empty{padding:80px 0;text-align:center;color:var(--sub)}
 
 /* 재생 창 */
@@ -832,43 +870,54 @@ const 색=['#1E53F2','#00ABCE','#7c3aed','#0ea5e9','#f97316','#14b8a6','#e11d48'
 const 링크=r=>r.home?`<a class="hl" href="${r.home}" target="_blank" rel="noopener">홈페이지 ↗</a>`:(r.fb?`<a class="hl fb" href="${r.fb}" target="_blank" rel="noopener" title="홈페이지 링크를 못 찾아 페이스북 페이지로 연결">페북 ↗</a>`:'');
 const 아바=n=>{let h=0;for(const c of n)h=(h*31+c.charCodeAt(0))%997;return `<span class="av" style="background:${색[h%색.length]}">${n.replace(/[()]/g,'').trim()[0]}</span>`;};
 const 비율=r=>{const t=r.meta||0;if(!t)return '<div class="sp"></div>';const v=r.video||0,m=r.image||0,u=Math.max(0,t-v-m);return `<div class="sp"><i class="v" style="width:${v/t*100}%"></i><i class="m" style="width:${m/t*100}%"></i><i class="u" style="width:${u/t*100}%"></i></div>`;};
+let 업체이미지={}, 열린업체='';
+fetch('업체이미지.json').then(r=>r.ok?r.json():{}).then(o=>{업체이미지=o||{}; if(window._현황) 현황그리기(window._현황);}).catch(()=>{});
 function 현황그리기(d){
+  window._현황=d;
   const rows=d.rows.slice().sort((a,b)=>(b.meta??-1)-(a.meta??-1)||(b.g30??-1)-(a.g30??-1));
   const max=Math.max(...rows.map(r=>r.meta||0),1);
   const 합=k=>rows.reduce((s,r)=>s+(r[k]||0),0);
-  const rest=rows;
+  const rest=rows, 총=합('meta'), 신규=합('metaNew');
+  const top5=rows.slice(0,5).reduce((s,r)=>s+(r.meta||0),0);
+  const 우리=rest.findIndex(r=>r.ours), 우리r=rest[우리];
   const 보일=현황검색?rest.filter(r=>r.name.toLowerCase().includes(현황검색.toLowerCase())):(현황열림?rest:rest.slice(0,20));
-  const 우리=rest.findIndex(r=>r.ours);
-  const pod=(r,i)=>`<div class="pod p${i+1}" data-n="${r.name}"><span class="rkb">0${i+1}</span>
-     <div class="nm">${아바(r.name)}${r.name}${링크(r)}</div>
-     <div class="big">${r.meta}<small>건</small></div>
-     <div class="sub">인스타·페북 게재 중${r.metaNew?` · 30일 신규 +${r.metaNew}`:''}</div>
-     <div class="split">${비율(r)}<div class="lg">${r.video!=null?`<span>동영상 ${r.video}</span><span class="m">이미지 ${r.image}</span>`:'<span>형식 미집계</span>'}</div></div></div>`;
-  const 작은=r=>[r.metaNew?`<span class="pill g">30일 +${r.metaNew}</span>`:'', r.g30?`<span class="pill b">구글 ${r.g30}</span>`:'', r.naver?`<span class="pill n">네이버 ${r.naver}회</span>`:''].join('');
-  const 줄=(r,i)=>`<tr class="r${r.ours?' ours':''}" data-n="${r.name}">
+  const 썸=r=>{const L=업체이미지[r.name]||[]; return L.length?`<div class="th3">${L.slice(0,3).map(x=>`<img src="${x.f}" loading="lazy" alt="">`).join('')}${L.length>3?`<span>+${L.length-3}</span>`:''}</div>`:'<span class="na">-</span>';};
+  const 형식=r=>{ if(r.video==null) return '<span class="na">-</span>'; const t=(r.video||0)+(r.image||0)||1;
+    return `<div class="fm"><div class="sp"><i class="v" style="width:${r.video/t*100}%"></i><i class="m" style="width:${r.image/t*100}%"></i></div><small>영상 ${r.video} · 이미지 ${r.image}</small></div>`;};
+  const 상세=r=>{const L=업체이미지[r.name]||[];
+    return `<tr class="det"><td colspan="9"><div class="dt">
+      ${r.memo?`<p class="dm">${r.memo}</p>`:''}
+      ${L.length?`<div class="gal">${L.map(x=>`<a href="https://www.facebook.com/ads/library/?id=${x.id}" target="_blank" rel="noopener"><img src="${x.f}" loading="lazy" alt=""><span>${x.fmt==='VIDEO'?'▶ 영상':x.fmt==='DCO'||x.fmt==='CAROUSEL'?'카드형':'이미지'}${x.start?` · ${new Date(x.start*1000).toLocaleDateString('ko-KR',{month:'numeric',day:'numeric'})} 시작`:''}</span>${x.text?`<em>${x.text}</em>`:''}</a>`).join('')}</div>`:'<p class="dm">저장된 광고 이미지가 없습니다 (광고 수가 적거나 페이스북 상담 신청형 광고).</p>'}
+      <div class="da"><button class="go" data-n="${r.name}">이 업체 광고 전부 보기 →</button>${링크(r)}</div></div></td></tr>`;};
+  const 줄=(r,i)=>`<tr class="r${r.ours?' ours':''}${열린업체===r.name?' open':''}" data-n="${r.name}">
      <td class="rk"><span class="rkc${i<3?' m'+(i+1):''}">${i+1}</span></td>
-     <td class="nmw"><div class="nmc">${아바(r.name)}${r.name}${r.ours?'<span class="ourb">우리</span>':''}${링크(r)}</div></td>
+     <td class="nmw"><div class="nmc">${아바(r.name)}<span class="nmt">${r.name}</span>${r.ours?'<span class="ourb">우리</span>':''}</div></td>
+     <td class="x pv">${썸(r)}</td>
      <td class="mt"><div class="mb">${r.meta==null?'<span class="na">미조회</span>':`<span class="bar"><i style="width:${Math.max(2,r.meta/max*100)}%"></i></span><b>${r.meta}</b>`}</div></td>
-     <td class="x vi">${r.video==null?'<span class="na">-</span>':`동영상 <b>${r.video}</b> · 이미지 <b>${r.image}</b>`}</td>
      <td class="x c">${r.metaNew?`<span class="pill g">+${r.metaNew}</span>`:'<span class="na">-</span>'}</td>
+     <td class="x">${형식(r)}</td>
      <td class="x c">${r.g30?`<span class="pill b">${r.g30}</span>`:'<span class="na">-</span>'}</td>
      <td class="x c">${r.naver?`<span class="pill n">${r.naver}회</span>`:'<span class="na">-</span>'}</td>
-     <td class="x c">${r.memo?`<i class="tip" tabindex="0">i<span>${r.memo}</span></i>`:''}</td>
-     <td class="xm">${작은(r)}</td></tr>`;
+     <td class="x c"><span class="chev">${열린업체===r.name?'▲':'▼'}</span></td></tr>${열린업체===r.name?상세(r):''}`;
   let body=보일.map(r=>줄(r,rest.indexOf(r))).join('');
-  if(!현황검색 && !현황열림 && 우리>=20) body+=줄(rest[우리],우리);
+  if(!현황검색 && !현황열림 && 우리>=20) body+=줄(우리r,우리);
   $('track').innerHTML=`<div class="tk">
-   <div class="tk-h"><div><span class="lab">LIVE TRACKER</span><h2>장기렌트 업체별 지금 돌리는 광고</h2><p>기준 ${d.기준} · 업체를 누르면 그 업체 광고만 모아 봅니다</p></div>
-    <div class="tk-kpi"><div><b>${rows.length}곳</b><span>추적 업체</span></div><div><b>${합('meta').toLocaleString()}</b><span>메타 게재 중 합계</span></div><div class="g"><b>+${합('metaNew').toLocaleString()}</b><span>30일 새 광고</span></div></div></div>
-   <input class="tk-q" id="tkq" placeholder="업체 이름으로 찾기 (예: 차맵, 카빌리지)" value="${현황검색}">
+   <div class="tk-h"><div><span class="lab">LIVE TRACKER</span><h2>장기렌트 업체별 지금 돌리는 광고</h2><p>메타(인스타·페북) 광고 라이브러리 기준 · ${d.기준.replace(/\s*\(.*\)$/,'')} 수집</p></div></div>
+   <div class="sum">
+     <div><span>시장 규모</span><b>${rows.length}곳 · ${총.toLocaleString()}건</b><p>장기렌트 업체가 지금 인스타·페북에 게재 중인 광고</p></div>
+     <div class="g"><span>최근 30일 새 광고</span><b>+${신규.toLocaleString()}건</b><p>게재 중 광고의 ${Math.round(신규/총*100)}%가 한 달 안에 새로 올라옴</p></div>
+     <div><span>상위 5곳 비중</span><b>${Math.round(top5/총*100)}%</b><p>${rows.slice(0,5).map(r=>r.name.replace(/\(.*\)/,'')).join(' · ')}</p></div>
+     ${우리r?`<div class="o"><span>다타랩</span><b>${우리+1}위 · ${우리r.meta}건</b><p>1위 ${rows[0].name} ${rows[0].meta}건 · 네이버 파워링크 ${우리r.naver||0}회 노출</p></div>`:''}
+   </div>
+   <div class="tk-bar"><input class="tk-q" id="tkq" placeholder="업체 이름으로 찾기 (예: 차맵, 카빌리지)" value="${현황검색}"><span class="hint">줄을 누르면 그 업체가 지금 돌리는 광고 이미지가 펼쳐집니다</span></div>
    <div class="tk-wrap"><table><thead>
-    <tr class="grp"><th colspan="2"></th><th colspan="3" class="gm">인스타·페북 (메타)</th><th class="c">구글</th><th class="c">네이버</th><th></th></tr>
-    <tr><th>순위</th><th>업체</th><th>게재 중</th><th>형식</th><th class="c">30일 신규</th><th class="c">최근 30일</th><th class="c">파워링크</th><th class="c">메모</th></tr></thead><tbody>${body}</tbody></table></div>
+    <tr><th>순위</th><th>업체</th><th class="x">광고 미리보기</th><th>게재 중</th><th class="c">30일 신규</th><th>형식</th><th class="c">구글<br><small>30일 소재</small></th><th class="c">네이버<br><small>파워링크</small></th><th></th></tr></thead><tbody>${body}</tbody></table></div>
    <button class="tk-more" id="tkm">${현황열림?'접기 ▲':`전체 ${rows.length}곳 보기 ▼`}</button>
-   <p class="tk-foot">인스타·페북 = 메타 광고 라이브러리에서 장기렌트 관련 검색어 9개(장기렌트·장기렌터카·장기렌트카·신차렌트·신차리스·자동차리스·장기리스·무보증 장기렌트·렌트 리스 견적)로 지금 게재 중인 광고를 모두 모은 뒤, 광고를 낸 <b>페이지 기준</b>으로 그 페이지의 게재 중 광고 수를 셈 (캐피탈·중고차처럼 다른 상품도 내는 페이지는 장기렌트 검색에 걸린 광고만) · 같은 광고를 세로·가로·문구별로 나눠 올리면 각각 1건 · 30일 신규 = 10/20 이후 게재 시작 · 구글 = 광고 투명성 센터 최근 30일 소재 수 · 네이버 = 검색어 14개에서 파워링크 노출 횟수 · 수집 시점 기준이며 실시간 아님</p></div>`;
+   <p class="tk-foot">집계 방법: 메타 광고 라이브러리에서 장기렌트 관련 검색어 9개(장기렌트·장기렌터카·장기렌트카·신차렌트·신차리스·자동차리스·장기리스·무보증 장기렌트·렌트 리스 견적)로 지금 게재 중인 광고를 모두 모은 뒤, 광고를 낸 <b>페이지 기준</b>으로 게재 중 광고 수를 셈 (캐피탈·중고차처럼 다른 상품도 내는 페이지는 장기렌트 검색에 걸린 광고만) · 같은 광고를 세로·가로·문구별로 나눠 올리면 각각 1건 · 30일 신규 = 10/20 이후 게재 시작 · 구글 = 광고 투명성 센터 최근 30일 소재 수 · 네이버 = 검색어 14개에서 파워링크 노출 횟수 · 수집 시점 기준이며 실시간 아님</p></div>`;
   $('tkm').onclick=()=>{현황열림=!현황열림; 현황그리기(d);};
   const q=$('tkq'); q.oninput=()=>{현황검색=q.value.trim(); 현황그리기(d); const n=$('tkq'); n.focus(); n.setSelectionRange(n.value.length,n.value.length);};
-  $('track').querySelectorAll('tr.r,.pod').forEach(tr=>tr.onclick=e=>{ if(e.target.closest('.tip,a'))return; 탭='인스타·페북 광고'; 태그=''; $('q').value=tr.dataset.n.replace(/\(.*\)/,'').trim(); 그리기(); scrollTo({top:document.querySelector('.tools').offsetTop,behavior:'smooth'}); });
+  $('track').querySelectorAll('tr.r').forEach(tr=>tr.onclick=e=>{ if(e.target.closest('.tip,a'))return; 열린업체=열린업체===tr.dataset.n?'':tr.dataset.n; 현황그리기(d); });
+  $('track').querySelectorAll('button.go').forEach(bt=>bt.onclick=()=>{ 탭='인스타·페북 광고'; 태그=''; $('q').value=bt.dataset.n.replace(/\(.*\)/,'').trim(); 그리기(); scrollTo({top:document.querySelector('.tools').offsetTop,behavior:'smooth'}); });
 }
 const PPL홈={'A1오토(에이원오토)':'https://a1auto.io','신차드림':'https://www.sinchadream.co.kr','원더굿라이프':'https://wonder-goodlife.com','시현장기렌트(차맵)':'https://chamap.co.kr','차즘':'https://chazm.co.kr','비피디오토(비피디)':'https://www.bpdauto.com','지엔에이(다타랩)':'https://www.gnacar.com','롯데렌터카':'https://www.lotterentacar.net','차끗':'https://direct.xn--f00bm14c.com/','올오토':'https://allautoholdings.com','KS오토플랜':'https://ks-rentcar.com'};
 fetch('유튜버PPL.json').then(r=>r.ok?r.json():null).then(d=>{ if(!d) return;
