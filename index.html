@@ -538,17 +538,21 @@ const 분류순 = [
   ['숏폼 광고','릴스·쇼츠용 세로 광고'],
   ['브랜드 광고','브랜드를 앞세운 정식 광고'],
   ['크리에이터 PPL','유튜버 채널에 녹인 협찬 영상'],
+  ['유튜브 검색 영상','유튜브에서 장기렌트 관련 검색어로 나온 영상 전체 (쇼츠·가로·롱폼, 조회수순)'],
   ['인스타·페북 광고','메타 광고 라이브러리에서 지금 집행 중인 장기렌트 광고 전체 (자동 수집, 광고주별)'],
+  ['구글 광고','구글 광고 투명성 센터에 공개된 대한민국 집행 광고 (검색·디스플레이·유튜브, 광고주 도메인별)'],
+  ['네이버 검색광고','네이버 검색 시 나오는 파워링크 광고 문구 (PC·모바일)'],
   ['광고 키카피 문구','장기렌트와 상관없이 모아 둔 한 줄 광고 문구']
 ];
-const 개수 = k => k==='광고 키카피 문구' ? 키카피.length : k==='전체' ? 광고.length : 광고.filter(a=>a.분류===k).length;
+let 네이버=[], 구글=[];
+const 개수 = k => k==='광고 키카피 문구' ? 키카피.length : k==='네이버 검색광고' ? 네이버.length : k==='구글 광고' ? 구글.length : k==='전체' ? 광고.length : 광고.filter(a=>a.분류===k).length;
 const 우리 = ['다타랩','다타랩TV'];
 const $ = id => document.getElementById(id);
 let 탭='전체', 태그='';
 
 function 숫자그리기(){ $('stats').innerHTML = [
-  [광고.length,'광고 영상'],
-  ...분류순.filter(([k])=>k!=='광고 키카피 문구').map(([k])=>[개수(k),k]),
+  [광고.length,'전체 영상'],
+  ...분류순.filter(([k])=>k!=='광고 키카피 문구'&&k!=='네이버 검색광고'&&k!=='구글 광고').map(([k])=>[개수(k),k]),
   [new Set(광고.map(a=>a.브랜드.replace('TV',''))).size,'브랜드']
 ].map(([n,t])=>`<div class="stat"><b>${n}</b><span>${t}</span></div>`).join(''); }
 숫자그리기();
@@ -556,7 +560,7 @@ function 숫자그리기(){ $('stats').innerHTML = [
 function 탭그리기(){
   $('tabs').innerHTML = [['전체',개수('전체')],...분류순.map(([k])=>[k,개수(k)])]
     .map(([k,n])=>`<button class="tab${k===탭?' on':''}${k==='광고 키카피 문구'?' sep':''}" data-k="${k}">${k}<small>${n}</small></button>`).join('');
-  const 태그들=[...new Set([...광고.filter(a=>(탭==='전체'&&!a.자동)||a.분류===탭).flatMap(a=>a.태그), ...(탭==='광고 키카피 문구'?키카피.map(c=>c.기법):[])])];
+  const 태그들=[...new Set([...광고.filter(a=>(탭==='전체'&&!a.자동)||a.분류===탭).flatMap(a=>a.태그), ...(탭==='광고 키카피 문구'?키카피.map(c=>c.기법):[]), ...(탭==='네이버 검색광고'?네이버.map(n=>n.kw):[]), ...(탭==='구글 광고'?구글.map(g=>g.domain):[])])];
   if(태그 && !태그들.includes(태그)) 태그='';
   $('chips').innerHTML = `<button class="chip all${태그===''?' on':''}" data-t="">전체</button>` + 태그들.map(t=>`<button class="chip${t===태그?' on':''}" data-t="${t}">${t}</button>`).join('');
 }
@@ -566,6 +570,7 @@ $('q').oninput=()=>그리기();
 
 function 카드(a){
   if(a.자동) return 자동카드(a);
+  if(a.유자동) return 유튜브카드(a);
   const i=광고.indexOf(a), yt=a.유튜브, thumb=a.썸네일||`https://i.ytimg.com/vi/${yt}/hqdefault.jpg`;
   return `<article class="card">
     <div class="media${(!yt||a.세로)?' tall':''}" data-i="${i}"><img src="${thumb}" alt="" loading="lazy"><span class="play"></span>
@@ -593,6 +598,29 @@ function 자동카드(a){
         <dd><a href="https://www.facebook.com/ads/library/?id=${a.라이브러리}" target="_blank" rel="noopener" style="color:var(--blue);font-weight:700">메타 광고 라이브러리에서 보기 →</a></dd></dl></details>
     </div></article>`;
 }
+function 유튜브카드(a){
+  const i=광고.indexOf(a);
+  return `<article class="card">
+    <div class="media${a.세로?' tall':''}" data-i="${i}"><img src="https://i.ytimg.com/vi/${a.유튜브}/hqdefault.jpg" alt="" loading="lazy"><span class="play"></span>
+      <span class="src">${a.브랜드}</span><span class="fmt">${a.형식}</span><span class="len">${a.길이}</span></div>
+    <div class="body"><h3>${a.제목}</h3>
+      <div class="meta" style="font-size:13px;color:var(--sub)">조회 ${a.조회.toLocaleString()} · 검색어 "${a.검색어}"</div>
+    </div></article>`;
+}
+function 네이버카드(n){
+  const [광고주,주소,...나머지]=n.lines;
+  return `<article class="kc nv"><div class="kc-body">
+    <div class="kc-meta"><b>${광고주||''}</b><span>${n.m?'모바일':'PC'}</span><span style="background:#ecfdf5;color:#047857">${n.kw}</span></div>
+    <div style="font-size:12px;color:#16a34a">${(주소||'').replace(/^네이버 톡톡$/,'')}</div>
+    <p class="kc-copy" style="font-size:16px">${나머지[0]||''}</p>
+    <p class="kc-pt">${나머지.slice(1).join(' · ')}</p></div></article>`;
+}
+function 구글카드(g){
+  return `<article class="kc"><div style="background:#f1f5f9;padding:10px;text-align:center"><img src="구글/${g.img}" alt="" loading="lazy" style="max-width:100%;max-height:420px;border-radius:8px"></div>
+    <div class="kc-body"><div class="kc-meta"><b>${g.adv||''}</b><span>${g.kind}</span></div>
+    <div style="font-size:12px;color:var(--sub)">${g.domain} · 이 도메인 광고 약 ${g.total||'?'}개</div>
+    ${g.href?`<a href="${g.href}" target="_blank" rel="noopener" style="font-size:13px;color:var(--blue);font-weight:700">투명성 센터에서 보기 →</a>`:''}</div></article>`;
+}
 function 카피카드(c){
   return `<article class="kc"><div class="kc-img"><img src="${c.사진}" alt="" loading="lazy"></div>
     <div class="kc-body"><p class="kc-copy">${c.카피.split(' / ').join('<br>')}</p>
@@ -608,11 +636,22 @@ function 그리기(){
     if(분류==='광고 키카피 문구') continue;
     const 목록=광고.filter(a=>a.분류===분류&&맞음(a));
     if(!목록.length) continue;
-    const 접기 = 분류==='인스타·페북 광고' && 탭==='전체' && !k;
+    if(분류==='네이버 검색광고'||분류==='구글 광고') continue;
+    const 접기 = (분류==='인스타·페북 광고'||분류==='유튜브 검색 영상') && 탭==='전체' && !k;
     const 보일 = 접기 ? 목록.slice(0,8) : 목록;
     html+=`<section class="sec"><div class="sec-h"><h2>${분류}</h2><span>${목록.length}편</span><p>${설명}</p></div>
       <div class="grid ${(분류==='숏폼 광고'||분류==='인스타·페북 광고')?'v':'h'}">${보일.map(카드).join('')}</div>
-      ${접기?`<button class="more" data-k="인스타·페북 광고">${목록.length}편 전체 보기 →</button>`:''}</section>`;
+      ${접기?`<button class="more" data-k="${분류}">${목록.length}편 전체 보기 →</button>`:''}</section>`;
+  }
+  if(탭==='구글 광고'){
+    const 목록=구글.filter(g=>(!태그||g.domain===태그)&&(!k||JSON.stringify(g).toLowerCase().includes(k)));
+    if(목록.length) html+=`<section class="sec"><div class="sec-h"><h2>구글 광고</h2><span>${목록.length}개</span><p>도메인별 최대 60개 캡처 · 동영상 소재는 투명성 센터 링크에서 재생</p></div>
+      <div class="grid kcg">${목록.map(구글카드).join('')}</div></section>`;
+  }
+  if(탭==='네이버 검색광고'){
+    const 목록=네이버.filter(n=>(!태그||n.kw===태그)&&(!k||JSON.stringify(n).toLowerCase().includes(k)));
+    if(목록.length) html+=`<section class="sec"><div class="sec-h"><h2>네이버 검색광고</h2><span>${목록.length}개</span><p>광고 클릭 링크는 일부러 넣지 않았습니다(광고주 과금 방지)</p></div>
+      <div class="grid kcg">${목록.map(네이버카드).join('')}</div></section>`;
   }
   if(탭==='광고 키카피 문구'){
     const 목록=키카피.filter(c=>(!태그||c.기법===태그)&&(!k||JSON.stringify(c).toLowerCase().includes(k)));
@@ -641,6 +680,13 @@ fetch('메타광고.json').then(r=>r.ok?r.json():[]).then(list=>{
     길이: m.dur?`${Math.floor(m.dur/60)}:${String(m.dur%60).padStart(2,'0')}`:'', 파일:`메타/v_${m.id}.mp4`, 썸네일:`메타/v_${m.id}.jpg`, 태그:[m.adv||'광고주 미상']}));
   숫자그리기(); 그리기();
 }).catch(()=>{});
+fetch('유튜브영상.json').then(r=>r.ok?r.json():[]).then(list=>{
+  list.forEach(m=>광고.push({유자동:true, 분류:'유튜브 검색 영상', 유튜브:m.id, 세로:m.s, 제목:m.t, 브랜드:m.ch, 형식:m.k, 조회:m.v, 검색어:m.q,
+    길이:`${Math.floor(m.d/60)}:${String(m.d%60).padStart(2,'0')}`, 태그:[m.k, m.q]}));
+  숫자그리기(); 그리기();
+}).catch(()=>{});
+fetch('구글광고.json').then(r=>r.ok?r.json():[]).then(list=>{ 구글=list; 그리기(); }).catch(()=>{});
+fetch('네이버광고.json').then(r=>r.ok?r.json():[]).then(list=>{ 네이버=list; 그리기(); }).catch(()=>{});
 </script>
 </body>
 </html>
