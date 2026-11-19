@@ -38,6 +38,7 @@ body{font-family:"Pretendard Variable",Pretendard,"Malgun Gothic",sans-serif;bac
 .tabs{display:flex;gap:4px;background:#e9edf6;padding:4px;border-radius:14px;overflow-x:auto;max-width:100%}
 .tab{border:0;background:none;font:inherit;font-size:14px;font-weight:700;color:var(--sub);padding:8px 14px;border-radius:10px;cursor:pointer;white-space:nowrap}
 .tab small{font-size:12px;opacity:.7;margin-left:3px}
+.tab.sep{margin-left:10px;position:relative}.tab.sep:before{content:"";position:absolute;left:-7px;top:9px;bottom:9px;width:1px;background:#cbd5e1}
 .tab.on{background:#fff;color:var(--blue);box-shadow:0 2px 8px rgba(15,23,42,.08)}
 .search{flex:1;min-width:200px;position:relative}
 .search input{width:100%;padding:11px 14px 11px 38px;border-radius:12px;border:1px solid var(--line);font:inherit;font-size:15px;background:#fff;outline:none}
@@ -140,7 +141,7 @@ footer{padding:30px 0 50px;text-align:center;color:#94a3b8;font-size:13px}
 <section class="hero"><div class="w">
   <span class="eyebrow">LONG-TERM RENTAL AD LIBRARY</span>
   <h1>장기렌트 <em>광고 모음</em></h1>
-  <p>잘 만든 장기렌트 광고와 키카피를 모아 두고, 다음 광고를 만들 때 꺼내 쓰는 곳입니다.</p>
+  <p>잘 만든 장기렌트 광고를 모아 두고, 다음 광고를 만들 때 꺼내 쓰는 곳입니다.</p>
   <div class="stats" id="stats"></div>
 </div></section>
 
@@ -403,23 +404,23 @@ const 분류순 = [
   ['숏폼 광고','릴스·쇼츠용 세로 광고'],
   ['브랜드 광고','브랜드를 앞세운 정식 광고'],
   ['크리에이터 PPL','유튜버 채널에 녹인 협찬 영상'],
-  ['키카피','한 줄로 기억에 남는 광고 문구']
+  ['광고 키카피 문구','장기렌트와 상관없이 모아 둔 한 줄 광고 문구']
 ];
-const 개수 = k => k==='키카피' ? 키카피.length : k==='전체' ? 광고.length+키카피.length : 광고.filter(a=>a.분류===k).length;
+const 개수 = k => k==='광고 키카피 문구' ? 키카피.length : k==='전체' ? 광고.length : 광고.filter(a=>a.분류===k).length;
 const 우리 = ['다타랩','다타랩TV'];
 const $ = id => document.getElementById(id);
 let 탭='전체', 태그='';
 
 $('stats').innerHTML = [
   [광고.length,'광고 영상'],
-  ...분류순.map(([k])=>[개수(k),k]),
+  ...분류순.filter(([k])=>k!=='광고 키카피 문구').map(([k])=>[개수(k),k]),
   [new Set(광고.map(a=>a.브랜드.replace('TV',''))).size,'브랜드']
 ].map(([n,t])=>`<div class="stat"><b>${n}</b><span>${t}</span></div>`).join('');
 
 function 탭그리기(){
   $('tabs').innerHTML = [['전체',개수('전체')],...분류순.map(([k])=>[k,개수(k)])]
-    .map(([k,n])=>`<button class="tab${k===탭?' on':''}" data-k="${k}">${k}<small>${n}</small></button>`).join('');
-  const 태그들=[...new Set([...광고.filter(a=>탭==='전체'||a.분류===탭).flatMap(a=>a.태그), ...((탭==='전체'||탭==='키카피')?키카피.map(c=>c.기법):[])])];
+    .map(([k,n])=>`<button class="tab${k===탭?' on':''}${k==='광고 키카피 문구'?' sep':''}" data-k="${k}">${k}<small>${n}</small></button>`).join('');
+  const 태그들=[...new Set([...광고.filter(a=>탭==='전체'||a.분류===탭).flatMap(a=>a.태그), ...(탭==='광고 키카피 문구'?키카피.map(c=>c.기법):[])])];
   if(태그 && !태그들.includes(태그)) 태그='';
   $('chips').innerHTML = `<button class="chip all${태그===''?' on':''}" data-t="">전체</button>` + 태그들.map(t=>`<button class="chip${t===태그?' on':''}" data-t="${t}">${t}</button>`).join('');
 }
@@ -455,15 +456,15 @@ function 그리기(){
   const 맞음=a=>(탭==='전체'||a.분류===탭)&&(!태그||a.태그.includes(태그))&&(!k||JSON.stringify(a).toLowerCase().includes(k));
   let html='';
   for(const [분류,설명] of 분류순){
-    if(분류==='키카피') continue;
+    if(분류==='광고 키카피 문구') continue;
     const 목록=광고.filter(a=>a.분류===분류&&맞음(a));
     if(!목록.length) continue;
     html+=`<section class="sec"><div class="sec-h"><h2>${분류}</h2><span>${목록.length}편</span><p>${설명}</p></div>
       <div class="grid ${분류==='숏폼 광고'?'v':'h'}">${목록.map(카드).join('')}</div></section>`;
   }
-  if(탭==='전체'||탭==='키카피'){
+  if(탭==='광고 키카피 문구'){
     const 목록=키카피.filter(c=>(!태그||c.기법===태그)&&(!k||JSON.stringify(c).toLowerCase().includes(k)));
-    if(목록.length) html+=`<section class="sec"><div class="sec-h"><h2>키카피</h2><span>${목록.length}개</span><p>한 줄로 기억에 남는 광고 문구</p></div>
+    if(목록.length) html+=`<section class="sec"><div class="sec-h"><h2>광고 키카피 문구</h2><span>${목록.length}개</span><p>장기렌트와 상관없이 모아 둔 한 줄 광고 문구</p></div>
       <div class="grid kcg">${목록.map(카피카드).join('')}</div></section>`;
   }
   $('main').innerHTML = html || '<div class="empty">찾는 광고가 없습니다.</div>';
