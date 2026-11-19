@@ -870,13 +870,13 @@ function 현황그리기(d){
   const q=$('tkq'); q.oninput=()=>{현황검색=q.value.trim(); 현황그리기(d); const n=$('tkq'); n.focus(); n.setSelectionRange(n.value.length,n.value.length);};
   $('track').querySelectorAll('tr.r,.pod').forEach(tr=>tr.onclick=e=>{ if(e.target.closest('.tip,a'))return; 탭='인스타·페북 광고'; 태그=''; $('q').value=tr.dataset.n.replace(/\(.*\)/,'').trim(); 그리기(); scrollTo({top:document.querySelector('.tools').offsetTop,behavior:'smooth'}); });
 }
-const PPL홈={'시현장기렌트(차맵)':'https://chamap.co.kr','차즘':'https://chazm.co.kr','비피디오토(비피디)':'https://www.bpdauto.com','지엔에이(다타랩)':'https://www.gnacar.com','롯데렌터카':'https://www.lotterentacar.net','차끗':'https://direct.xn--f00bm14c.com/','올오토':'https://allautoholdings.com','KS오토플랜':'https://ks-rentcar.com'};
+const PPL홈={'A1오토(에이원오토)':'https://a1auto.io','신차드림':'https://www.sinchadream.co.kr','원더굿라이프':'https://wonder-goodlife.com','시현장기렌트(차맵)':'https://chamap.co.kr','차즘':'https://chazm.co.kr','비피디오토(비피디)':'https://www.bpdauto.com','지엔에이(다타랩)':'https://www.gnacar.com','롯데렌터카':'https://www.lotterentacar.net','차끗':'https://direct.xn--f00bm14c.com/','올오토':'https://allautoholdings.com','KS오토플랜':'https://ks-rentcar.com'};
 fetch('유튜버PPL.json').then(r=>r.ok?r.json():null).then(d=>{ if(!d) return;
   const 묶음={}; d.rows.forEach(r=>(묶음[r.company]=묶음[r.company]||[]).push(r));
   const 표={'진행 중':'on','자체 채널':'self','확인 안 됨':'off','업로드 멈춤':'stop'};
   $('ppl').innerHTML=`<div class="tk"><div class="tk-h"><div><span class="lab">YOUTUBE PPL</span><h2 class="yth"><svg class="ytl" viewBox="0 0 28 20" aria-label="YouTube"><rect width="28" height="20" rx="5" fill="#FF0000"/><path d="M11 5.5v9l8-4.5z" fill="#fff"/></svg>장기렌트 업체별 유튜버 광고</h2><p>${d.기준} · 진행 중 = 최근 영상 설명란에 업체 링크·문구가 있음 (말로만 하는 광고는 확인 못 함)</p></div></div>
    <div class="pg">${Object.entries(묶음).map(([c,list])=>`<div class="pc${/지엔에이/.test(c)?' ours':''}"><h3>${아바(c)}${c}${PPL홈[c]?`<a class="hl" href="${PPL홈[c]}" target="_blank" rel="noopener">홈페이지 ↗</a>`:''}<small>${list.filter(x=>x.status==='진행 중').length}곳 진행 중</small></h3>
-    ${list.map(x=>`<div class="ch">${x.url?`<a href="${x.url}" target="_blank" rel="noopener">${x.ch}</a>`:`<span>${x.ch}</span>`}<span class="sb">${x.subs}</span><span class="st ${표[x.status]||'off'}">${x.status}</span>${x.note?`<div class="nt">${x.changed?'<b>바뀜</b> · ':''}${x.note}</div>`:''}</div>`).join('')}</div>`).join('')}</div></div>`;
+    ${list.map(x=>`<div class="ch">${x.url?`<a href="${x.url}" target="_blank" rel="noopener">${x.ch}</a>`:`<span>${x.ch}</span>`}<span class="sb">${x.subs}</span><span class="st ${표[x.status]||'off'}">${x.status}</span>${x.note?`<div class="nt">${x.changed?'<b>바뀜</b> · ':''}${x.new?'<b style="color:#2563eb">새로 찾음</b> · ':''}${x.note}</div>`:''}</div>`).join('')}</div>`).join('')}</div></div>`;
 }).catch(()=>{});
 fetch('업체현황.json').then(r=>r.ok?r.json():null).then(d=>{ if(d) 현황그리기(d); }).catch(()=>{});
 fetch('구글기간.json').then(r=>r.ok?r.json():{}).then(o=>{ 구글기간=o; 그리기(); }).catch(()=>{});

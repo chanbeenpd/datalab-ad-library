@@ -1,26 +1,238 @@
-{"기준":"팀장님 조사(2026-06-12) + 노아 확인(2026-11-19: 구독자 수, 최근 영상 설명란의 광고 링크·문구)",
-"rows":[
- {"company":"시현장기렌트(차맵)","ch":"우파","subs":"121만","url":"https://www.youtube.com/@Woopa87","status":"진행 중","note":"설명란 '인기 차종 장기렌트 상담｜차맵' (11/18 영상)"},
- {"company":"시현장기렌트(차맵)","ch":"카비니","subs":"23.6만","url":"https://www.youtube.com/@carbini","status":"확인 안 됨","note":"최근 영상 설명란에 업체 표기 없음"},
- {"company":"시현장기렌트(차맵)","ch":"차도남 닥터준","subs":"27만","url":"https://www.youtube.com/@DoctorJun","status":"확인 안 됨","note":"최근 설명란은 '엠케어 렌트카'(사고대차)만 있음"},
- {"company":"시현장기렌트(차맵)","ch":"신사용","subs":"26만","url":"https://www.youtube.com/@sinsayong","status":"확인 안 됨","note":"최근 영상 설명란에 업체 표기 없음"},
- {"company":"시현장기렌트(차맵)","ch":"차도녀TV","subs":"14.7만","url":"https://www.youtube.com/@silverstarsim","status":"진행 중","note":"10~11월 영상 설명란에 시현/차맵 언급"},
- {"company":"차즘","ch":"김한용의 MOCAR","subs":"137만","url":"https://www.youtube.com/@mocar_official","status":"진행 중","note":"11월 영상 3편 설명란에 차즘"},
- {"company":"차즘","ch":"차플레이","subs":"9.3만","url":"https://www.youtube.com/@chaplay_official","status":"확인 안 됨","note":"최근 영상 설명란에 업체 표기 없음"},
- {"company":"차즘","ch":"안오준TV","subs":"16.2만","url":"https://www.youtube.com/@안오준TV","status":"확인 안 됨","note":"최근 영상 설명란에 업체 표기 없음"},
- {"company":"차즘","ch":"모트라인","subs":"80.6만","url":"https://www.youtube.com/@Motline","status":"진행 중","note":"'모트라인×차즘 쇼룸' — 팀장님 자료엔 카랩, 지금은 차즘","changed":true},
- {"company":"차즘","ch":"미디어오토","subs":"45.8만","url":"https://www.youtube.com/@mediaAUTO","status":"진행 중","note":"'차즘에서 최대 17개 리스렌트 견적비교' — 팀장님 자료엔 지엔에이, 지금은 차즘","changed":true},
- {"company":"카랩","ch":"(현재 확인된 채널 없음)","subs":"","url":"","status":"확인 안 됨","note":"자료상 모트라인·인싸케이 → 지금은 각각 차즘·올오토"},
- {"company":"비피디오토(비피디)","ch":"비피디 BPD","subs":"41.6만","url":"https://www.youtube.com/@bpd","status":"자체 채널","note":"비피디오토 운영사 채널 · '비피디A1오토'는 비피디×A1오토 협업"},
- {"company":"비피디오토(비피디)","ch":"김승현 안피디의 스포일러","subs":"28.4만","url":"https://www.youtube.com/@spoiler_official","status":"업로드 멈춤","note":"설명란 '비피디오토 최저가견적' · 마지막 업로드 2026-04-16"},
- {"company":"카넥션(리스)","ch":"재뻘TV","subs":"29.2만","url":"https://www.youtube.com/@jaebbultv","status":"진행 중","note":"설명란 '수입차리스·렌트 전문 플랫폼 카넥션'"},
- {"company":"지엔에이(다타랩)","ch":"다타랩TV","subs":"4.5만","url":"https://www.youtube.com/@다타랩","status":"자체 채널","note":"우리 채널"},
- {"company":"지엔에이(다타랩)","ch":"야생마TV","subs":"27.6만","url":"https://www.youtube.com/@mustang_tv","status":"진행 중","note":"8·10월 영상 제목에 [다타랩]"},
- {"company":"지엔에이(다타랩)","ch":"카퍼스트","subs":"1.1만","url":"https://www.youtube.com/@carfirst_kimpd","status":"확인 안 됨","note":"최근 영상 설명란에 업체 표기 없음 · 마지막 업로드 10/22"},
- {"company":"야너두","ch":"야너두","subs":"16.8만","url":"https://www.youtube.com/@YND","status":"자체 채널","note":""},
- {"company":"롯데렌터카","ch":"앗차가와","subs":"11.9만","url":"https://www.youtube.com/@atcar","status":"진행 중","note":"최근 영상 설명란에 롯데렌터카"},
- {"company":"올오토","ch":"인싸케이","subs":"45.1만","url":"https://www.youtube.com/@인싸케이k彡","status":"진행 중","note":"설명란 \"리스·렌트 최저가 '올오토'\" (11월 13편) — 팀장님 자료엔 카랩·올오토 둘 다"},
- {"company":"차끗","ch":"차끗","subs":"6.3천","url":"https://www.youtube.com/@차끗","status":"자체 채널","note":""},
- {"company":"KS오토플랜","ch":"KS오토플랜","subs":"3.4천","url":"https://www.youtube.com/@KS오토플랜","status":"자체 채널","note":""},
- {"company":"KS오토플랜","ch":"성명준","subs":"34.6만","url":"https://www.youtube.com/@성명준","status":"진행 중","note":"11월 영상 설명란에 KS오토플랜"}
-]}
+{
+"기준": "팀장님 조사(2026-06-12) + 노아 확인(2026-11-19: 구독자 수, 최근 영상 설명란) + 노아 추가 조사(자동차 채널 191곳 설명란 검색)",
+"rows": [
+{
+"company": "시현장기렌트(차맵)",
+"ch": "우파",
+"subs": "121만",
+"url": "https://www.youtube.com/@Woopa87",
+"status": "진행 중",
+"note": "설명란 '인기 차종 장기렌트 상담｜차맵' (11/18 영상)"
+},
+{
+"company": "시현장기렌트(차맵)",
+"ch": "카비니",
+"subs": "23.6만",
+"url": "https://www.youtube.com/@carbini",
+"status": "확인 안 됨",
+"note": "최근 영상 설명란에 업체 표기 없음"
+},
+{
+"company": "시현장기렌트(차맵)",
+"ch": "차도남 닥터준",
+"subs": "27만",
+"url": "https://www.youtube.com/@DoctorJun",
+"status": "확인 안 됨",
+"note": "최근 설명란은 '엠케어 렌트카'(사고대차)만 있음"
+},
+{
+"company": "시현장기렌트(차맵)",
+"ch": "신사용",
+"subs": "26만",
+"url": "https://www.youtube.com/@sinsayong",
+"status": "확인 안 됨",
+"note": "최근 영상 설명란에 업체 표기 없음"
+},
+{
+"company": "시현장기렌트(차맵)",
+"ch": "차도녀TV",
+"subs": "14.7만",
+"url": "https://www.youtube.com/@silverstarsim",
+"status": "진행 중",
+"note": "10~11월 영상 설명란에 시현/차맵 언급"
+},
+{
+"company": "차즘",
+"ch": "김한용의 MOCAR",
+"subs": "137만",
+"url": "https://www.youtube.com/@mocar_official",
+"status": "진행 중",
+"note": "11월 영상 3편 설명란에 차즘"
+},
+{
+"company": "차즘",
+"ch": "안오준TV",
+"subs": "16.2만",
+"url": "https://www.youtube.com/@안오준TV",
+"status": "확인 안 됨",
+"note": "최근 영상 설명란에 업체 표기 없음"
+},
+{
+"company": "차즘",
+"ch": "모트라인",
+"subs": "80.6만",
+"url": "https://www.youtube.com/@Motline",
+"status": "진행 중",
+"note": "'모트라인×차즘 쇼룸' — 팀장님 자료엔 카랩, 지금은 차즘",
+"changed": true
+},
+{
+"company": "차즘",
+"ch": "미디어오토",
+"subs": "45.8만",
+"url": "https://www.youtube.com/@mediaAUTO",
+"status": "진행 중",
+"note": "'차즘에서 최대 17개 리스렌트 견적비교' — 팀장님 자료엔 지엔에이, 지금은 차즘",
+"changed": true
+},
+{
+"company": "카랩",
+"ch": "(현재 확인된 채널 없음)",
+"subs": "",
+"url": "",
+"status": "확인 안 됨",
+"note": "자료상 모트라인·인싸케이 → 지금은 각각 차즘·올오토"
+},
+{
+"company": "비피디오토(비피디)",
+"ch": "비피디 BPD",
+"subs": "41.6만",
+"url": "https://www.youtube.com/@bpd",
+"status": "자체 채널",
+"note": "비피디오토 운영사 채널 · '비피디A1오토'는 비피디×A1오토 협업"
+},
+{
+"company": "비피디오토(비피디)",
+"ch": "김승현 안피디의 스포일러",
+"subs": "28.4만",
+"url": "https://www.youtube.com/@spoiler_official",
+"status": "업로드 멈춤",
+"note": "설명란 '비피디오토 최저가견적' · 마지막 업로드 2026-04-16"
+},
+{
+"company": "카넥션(리스)",
+"ch": "재뻘TV",
+"subs": "29.2만",
+"url": "https://www.youtube.com/@jaebbultv",
+"status": "진행 중",
+"note": "설명란 '수입차리스·렌트 전문 플랫폼 카넥션'"
+},
+{
+"company": "지엔에이(다타랩)",
+"ch": "다타랩TV",
+"subs": "4.5만",
+"url": "https://www.youtube.com/@다타랩",
+"status": "자체 채널",
+"note": "우리 채널"
+},
+{
+"company": "지엔에이(다타랩)",
+"ch": "야생마TV",
+"subs": "27.6만",
+"url": "https://www.youtube.com/@mustang_tv",
+"status": "진행 중",
+"note": "8·10월 영상 제목에 [다타랩]"
+},
+{
+"company": "야너두",
+"ch": "야너두",
+"subs": "16.8만",
+"url": "https://www.youtube.com/@YND",
+"status": "자체 채널",
+"note": ""
+},
+{
+"company": "롯데렌터카",
+"ch": "앗차가와",
+"subs": "11.9만",
+"url": "https://www.youtube.com/@atcar",
+"status": "진행 중",
+"note": "최근 영상 설명란에 롯데렌터카"
+},
+{
+"company": "올오토",
+"ch": "인싸케이",
+"subs": "45.1만",
+"url": "https://www.youtube.com/@인싸케이k彡",
+"status": "진행 중",
+"note": "설명란 \"리스·렌트 최저가 '올오토'\" (11월 13편) — 팀장님 자료엔 카랩·올오토 둘 다"
+},
+{
+"company": "차끗",
+"ch": "차끗",
+"subs": "6.3천",
+"url": "https://www.youtube.com/@차끗",
+"status": "자체 채널",
+"note": ""
+},
+{
+"company": "KS오토플랜",
+"ch": "KS오토플랜",
+"subs": "3.4천",
+"url": "https://www.youtube.com/@KS오토플랜",
+"status": "자체 채널",
+"note": ""
+},
+{
+"company": "KS오토플랜",
+"ch": "성명준",
+"subs": "34.6만",
+"url": "https://www.youtube.com/@성명준",
+"status": "진행 중",
+"note": "11월 영상 설명란에 KS오토플랜"
+},
+{
+"company": "A1오토(에이원오토)",
+"ch": "차플레이",
+"subs": "9.3만",
+"url": "https://www.youtube.com/@chaplay_official",
+"status": "진행 중",
+"note": "'본 영상에는 에이원오토의 유료 광고가 포함' · 링크 chaplay-a1auto.com — 팀장님 자료엔 차즘, 지금은 A1오토",
+"changed": true
+},
+{
+"company": "A1오토(에이원오토)",
+"ch": "에이원오토 서백로",
+"subs": "1.4만",
+"url": "https://www.youtube.com/@A1auto-official",
+"status": "자체 채널",
+"note": "a1auto.io 상담 링크",
+"new": true
+},
+{
+"company": "신차드림",
+"ch": "카뷰어",
+"subs": "1.1만",
+"url": "https://www.youtube.com/@카뷰어",
+"status": "진행 중",
+"note": "설명란 '상담문의 sinchadream.co.kr'",
+"new": true
+},
+{
+"company": "모터나우(제휴사 미표기)",
+"ch": "모터나우",
+"subs": "23.6만",
+"url": "https://www.youtube.com/@모터나우",
+"status": "진행 중",
+"note": "설명란 '신차장기렌트 진짜 최저가 견적' → '모터나우 x 초기비용 0원 신차장기렌트' 페이지(운영사 표기 없음)",
+"new": true
+},
+{
+"company": "오토브라더스",
+"ch": "오토브라더스 김실장",
+"subs": "11.9만",
+"url": "https://www.youtube.com/@autobrothersKIM",
+"status": "자체 채널",
+"note": "장기렌트 상담 채널(카카오톡 상담)",
+"new": true
+},
+{
+"company": "원더굿라이프",
+"ch": "원더굿라이프",
+"subs": "7.4만",
+"url": "https://www.youtube.com/@WonderGoodLife",
+"status": "자체 채널",
+"note": "'딜러 수수료 0% 장기렌트·리스' wonder-goodlife.com",
+"new": true
+},
+{
+"company": "올오토",
+"ch": "신차의모든것",
+"subs": "2천",
+"url": "https://www.youtube.com/@theallauto",
+"status": "자체 채널",
+"note": "핸들 @theallauto · 협찬 문의 theallauto@naver.com",
+"new": true
+}
+]
+}
