@@ -891,7 +891,7 @@ function 현황그리기(d){
       <div class="da"><button class="go" data-n="${r.name}">이 업체 광고 전부 보기 →</button>${링크(r)}</div></div></td></tr>`;};
   const 줄=(r,i)=>`<tr class="r${r.ours?' ours':''}${열린업체===r.name?' open':''}" data-n="${r.name}">
      <td class="rk"><span class="rkc${i<3?' m'+(i+1):''}">${i+1}</span></td>
-     <td class="nmw"><div class="nmc">${아바(r.name)}<span class="nmt">${r.name}</span>${r.ours?'<span class="ourb">우리</span>':''}</div></td>
+     <td class="nmw"><div class="nmc">${아바(r.name)}<span class="nmt">${r.name}</span>${r.ours?'<span class="ourb">우리</span>':''}${링크(r)}</div></td>
      <td class="x pv">${썸(r)}</td>
      <td class="mt"><div class="mb">${r.meta==null?'<span class="na">미조회</span>':`<span class="bar"><i style="width:${Math.max(2,r.meta/max*100)}%"></i></span><b>${r.meta}</b>`}</div></td>
      <td class="x c">${r.metaNew?`<span class="pill g">+${r.metaNew}</span>`:'<span class="na">-</span>'}</td>
