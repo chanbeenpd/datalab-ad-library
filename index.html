@@ -696,11 +696,11 @@ const 분류순 = [
   ['유튜브 검색 영상','유튜브에서 장기렌트 관련 검색어로 나온 영상 전체 (쇼츠·가로·롱폼, 조회수순)'],
   ['인스타·페북 광고','메타 광고 라이브러리에서 지금 집행 중인 장기렌트 광고 전체 (자동 수집, 광고주별)'],
   ['구글 광고','구글 광고 투명성 센터에 공개된 대한민국 집행 광고 (검색·디스플레이·유튜브, 광고주 도메인별)'],
-  ['네이버 검색광고','네이버 검색 시 나오는 파워링크 광고 문구 (PC·모바일)'],
+  ['네이버 검색광고','신차장기렌트 관련 키워드 31개의 파워링크 1~10위 순위표와 광고 문구 (PC, 2026-11-26)'],
   ['광고 키카피 문구','장기렌트와 상관없이 모아 둔 한 줄 광고 문구']
 ];
-let 네이버=[], 구글=[]; const 수집일='2026-11-19';
-const 개수 = k => k==='광고 집행 통계' ? '' : k==='광고 키카피 문구' ? 키카피.length : k==='네이버 검색광고' ? 네이버.length : k==='구글 광고' ? 구글.length : k==='전체' ? 광고.length : 광고.filter(a=>a.분류===k).length;
+let 네이버=[], 구글=[]; const 수집일='2026-11-26 (업체별 메타 게재 수는 11-19 기준)'; const 네이버수집='2026-11-26 19:24 수집';
+const 개수 = k => k==='광고 집행 통계' ? '' : k==='광고 키카피 문구' ? 키카피.length : k==='네이버 검색광고' ? 네이버.filter(n=>!n.ex).length : k==='구글 광고' ? 구글.length : k==='전체' ? 광고.length : 광고.filter(a=>a.분류===k).length;
 const 우리 = ['다타랩','다타랩TV'];
 const $ = id => document.getElementById(id);
 let 탭='전체', 태그='';
@@ -765,7 +765,8 @@ function 유튜브카드(a){
 function 네이버카드(n){
   const [광고주,주소,...나머지]=n.lines;
   return `<article class="kc nv"><div class="kc-body">
-    <div class="kc-meta"><b>${광고주||''}</b><span>${n.m?'모바일':'PC'}</span><span style="background:#ecfdf5;color:#047857">${n.kw}</span></div>
+    <div class="kc-meta">${광고주?'':'<b style="color:#94a3b8">업체명 미확인</b>'}${n.rank?`<span style="background:#03c75a;color:#fff;font-weight:800">${n.rank}위</span>`:''}<b>${광고주||''}</b><span>${n.m?'모바일':'PC'}</span><span style="background:#ecfdf5;color:#047857">${n.kw}</span></div>
+    ${n.period?`<div style="font-size:11px;color:var(--sub)">광고집행기간 ${n.period}</div>`:''}
     <div style="font-size:12px;color:#16a34a">${(주소||'').replace(/^네이버 톡톡$/,'')}</div>
     <p class="kc-copy" style="font-size:16px">${나머지[0]||''}</p>
     <p class="kc-pt">${나머지.slice(1).join(' · ')}</p></div></article>`;
@@ -773,7 +774,7 @@ function 네이버카드(n){
 function 구글카드(g){
   return `<article class="kc"><div style="background:#f1f5f9;padding:10px;text-align:center"><img src="구글/${g.img}" alt="" loading="lazy" style="max-width:100%;max-height:420px;border-radius:8px"></div>
     <div class="kc-body"><div class="kc-meta"><b>${g.adv||''}</b><span>${g.kind}</span></div>
-    <div style="font-size:12px;color:var(--sub)">${g.domain} · 이 도메인 광고 약 ${g.total||'?'}개</div>
+    <div style="font-size:12px;color:var(--sub)">${g.domain}${g.total?` · 이 도메인 광고 약 ${g.total}개`:''}</div>
     ${g.href?`<a href="${g.href}" target="_blank" rel="noopener" style="font-size:13px;color:var(--blue);font-weight:700">투명성 센터에서 보기 →</a>`:''}</div></article>`;
 }
 let 구글기간={}, 메타원본=[];
@@ -789,7 +790,7 @@ function 통계(){
   const 월={}; 메타.forEach(m=>{const r=(m.start||'').match(/(\d{4})\.\s?(\d+)\./); if(r){const k=`${r[1]}.${String(r[2]).padStart(2,'0')}`; 월[k]=(월[k]||0)+1;}});
   const 월목록=Object.entries(월).sort().slice(-8);
   const g=Object.entries(구글기간).map(([d,v])=>[d,+(v['최근 30일']||0),`7일 ${v['최근 7일']||0}`]).sort((a,b)=>b[1]-a[1]);
-  const nv={}; 네이버.forEach(n=>{const a=n.lines[0]||'?'; nv[a]=(nv[a]||0)+1;});
+  const nv={}; 네이버.filter(n=>!n.ex).forEach(n=>{const a=n.lines[0]||`업체명 미확인(${n.lines[1]||''})`; nv[a]=(nv[a]||0)+1;});
   const nvTop=Object.entries(nv).sort((a,b)=>b[1]-a[1]).slice(0,15);
   const 우리m=by['다타랩:신차전문플랜']||by['다타랩']||{n:0};
   return `<section class="sec"><div class="sec-h"><h2>광고 집행 통계</h2><p>수집 시점: ${수집일} · 메타는 '지금 게재 중' 광고 기준</p></div>
@@ -800,7 +801,7 @@ function 통계(){
       ${g.length?막대(g, g[0][1]||1, 'linear-gradient(90deg,#16a34a,#84cc16)'):'<p class="st-sub">조회 중</p>'}</div>
     <div class="st-card"><h3>인스타·페북 새 광고 시작 추이 (월별)</h3><p class="st-sub">지금 게재 중인 광고가 언제 시작됐는지</p>
       ${막대(월목록, Math.max(...월목록.map(x=>x[1]),1), 'linear-gradient(90deg,#7c3aed,#c084fc)')}</div>
-    <div class="st-card"><h3>네이버 파워링크 노출 광고주</h3><p class="st-sub">검색어 14개에서 잡힌 횟수 (PC+모바일)</p>
+    <div class="st-card"><h3>네이버 파워링크 노출 광고주</h3><p class="st-sub">키워드 31개 PC 파워링크 1~10위에 든 횟수 (2026-11-26, 무관 광고 2건 제외)</p>
       ${막대(nvTop, nvTop[0]?nvTop[0][1]:1, 'linear-gradient(90deg,#03c75a,#7ee2a8)')}</div>
    </div>
    <p class="st-sub" style="margin-top:14px">※ 다타랩 게재 중 메타 광고: ${우리m.n}편 · 숫자는 수집 시점 기준이며 실시간이 아닙니다. 다시 수집하면 갱신됩니다.</p></section>`;
@@ -829,12 +830,18 @@ function 그리기(){
   }
   if(탭==='구글 광고'){
     const 목록=구글.filter(g=>(!태그||g.domain===태그)&&(!k||JSON.stringify(g).toLowerCase().includes(k)));
-    if(목록.length) html+=`<section class="sec"><div class="sec-h"><h2>구글 광고</h2><span>${목록.length}개</span><p>도메인별 최대 60개 캡처 · 동영상 소재는 투명성 센터 링크에서 재생</p></div>
+    if(목록.length) html+=`<section class="sec"><div class="sec-h"><h2>구글 광고</h2><span>${목록.length}개</span><p>2026-11-26 수집 · 단기렌트·중고차·보험·빈 화면 제외 · 동영상 소재는 투명성 센터 링크에서 재생</p></div>
       <div class="grid kcg">${목록.map(구글카드).join('')}</div></section>`;
   }
   if(탭==='광고 집행 통계') html+=통계();
   if(탭==='네이버 검색광고'){
-    const 목록=네이버.filter(n=>(!태그||n.kw===태그)&&(!k||JSON.stringify(n).toLowerCase().includes(k)));
+    const 목록=네이버.filter(n=>!n.ex&&(!태그||n.kw===태그)&&(!k||JSON.stringify(n).toLowerCase().includes(k)));
+    const 키목록=[...new Set(네이버.map(n=>n.kw))].filter(kw=>!태그||kw===태그);
+    const 순위칸=kw=>{const r=네이버.filter(n=>n.kw===kw).sort((a,b)=>a.rank-b.rank); return Array.from({length:10},(_,i)=>{const x=r.find(n=>n.rank===i+1); const nm=x?(x.lines[0]||`<span style="color:#94a3b8">미확인 · ${x.lines[1]||''}</span>`):''; const 우=/지엔에이|다타랩/.test(nm); return x&&x.ex?`<td style="padding:6px 8px;border-bottom:1px solid #eef1f5;white-space:nowrap;color:#94a3b8;text-decoration:line-through" title="검수 제외: ${x.ex}">${x.lines[0]} (제외)</td>`:`<td style="padding:6px 8px;border-bottom:1px solid #eef1f5;white-space:nowrap;${우?'background:#eef3ff;color:#1E53F2;font-weight:800':''}">${nm||'-'}</td>`;}).join('');};
+    if(키목록.length && 네이버.some(n=>n.rank)) html+=`<section class="sec"><div class="sec-h"><h2>네이버 파워링크 순위표</h2><span>키워드 ${키목록.length}개</span><p>${네이버수집} · PC 광고 목록(ad.search.naver.com) 노출 순서 1~10위 · 시간·사용자에 따라 순서가 바뀔 수 있음</p></div>
+      <div style="overflow-x:auto;background:#fff;border-radius:14px;border:1px solid #e5e9f0"><table style="border-collapse:collapse;font-size:13px;width:100%"><thead><tr><th style="text-align:left;padding:8px;position:sticky;left:0;background:#f8fafc">키워드</th>${Array.from({length:10},(_,i)=>`<th style="padding:8px;background:#f8fafc">${i+1}위</th>`).join('')}</tr></thead>
+      <tbody>${키목록.map(kw=>`<tr><td style="padding:6px 8px;border-bottom:1px solid #eef1f5;font-weight:700;position:sticky;left:0;background:#fff;white-space:nowrap">${kw}</td>${순위칸(kw)}</tr>`).join('')}</tbody></table></div></section>`;
+    목록.sort((a,b)=>키목록.indexOf(a.kw)-키목록.indexOf(b.kw)||(a.rank||99)-(b.rank||99));
     if(목록.length) html+=`<section class="sec"><div class="sec-h"><h2>네이버 검색광고</h2><span>${목록.length}개</span><p>광고 클릭 링크는 일부러 넣지 않았습니다(광고주 과금 방지)</p></div>
       <div class="grid kcg">${목록.map(네이버카드).join('')}</div></section>`;
   }
@@ -912,7 +919,7 @@ function 현황그리기(d){
   $('track').innerHTML=`<div class="tk">
    <div class="tk-h"><div><span class="lab">LIVE TRACKER</span><h2>장기렌트 업체별 지금 돌리는 광고</h2><p>메타(인스타·페북) 광고 라이브러리 기준 · ${d.기준.replace(/\s*\(.*\)$/,'')} 수집</p></div></div>
    <div class="sum">
-     <div><span>시장 규모</span><b>${rows.length}곳 · ${총.toLocaleString()}건</b><p>장기렌트 업체가 지금 인스타·페북에 게재 중인 광고</p></div>
+     <div><span>시장 규모</span><b>${rows.filter(r=>r.meta>0).length}곳 · ${총.toLocaleString()}건</b><p>장기렌트 업체가 지금 인스타·페북에 게재 중인 광고</p></div>
      <div class="g"><span>최근 30일 새 광고</span><b>+${신규.toLocaleString()}건</b><p>게재 중 광고의 ${Math.round(신규/총*100)}%가 한 달 안에 새로 올라옴</p></div>
      <div><span>상위 5곳 비중</span><b>${Math.round(top5/총*100)}%</b><p>${rows.slice(0,5).map(r=>r.name.replace(/\(.*\)/,'')).join(' · ')}</p></div>
      ${우리r?`<div class="o"><span>다타랩</span><b>${우리+1}위 · ${우리r.meta}건</b><p>1위 ${rows[0].name} ${rows[0].meta}건 · 네이버 파워링크 ${우리r.naver||0}회 노출</p></div>`:''}
@@ -921,7 +928,7 @@ function 현황그리기(d){
    <div class="tk-wrap"><table><thead>
     <tr><th>순위</th><th>업체</th><th class="x">광고 미리보기</th><th>게재 중</th><th class="c">30일 신규</th><th>형식</th><th class="c">구글<br><small>30일 소재</small></th><th class="c">네이버<br><small>파워링크</small></th><th></th></tr></thead><tbody>${body}</tbody></table></div>
    <button class="tk-more" id="tkm">${현황열림?'접기 ▲':`전체 ${rows.length}곳 보기 ▼`}</button>
-   <p class="tk-foot">집계 방법: 메타 광고 라이브러리에서 장기렌트 관련 검색어 9개(장기렌트·장기렌터카·장기렌트카·신차렌트·신차리스·자동차리스·장기리스·무보증 장기렌트·렌트 리스 견적)로 지금 게재 중인 광고를 모두 모은 뒤, 광고를 낸 <b>페이지 기준</b>으로 게재 중 광고 수를 셈 (캐피탈·중고차처럼 다른 상품도 내는 페이지는 장기렌트 검색에 걸린 광고만) · 같은 광고를 세로·가로·문구별로 나눠 올리면 각각 1건 · 30일 신규 = 10/20 이후 게재 시작 · 구글 = 광고 투명성 센터 최근 30일 소재 수 · 네이버 = 검색어 14개에서 파워링크 노출 횟수 · 수집 시점 기준이며 실시간 아님</p></div>`;
+   <p class="tk-foot">집계 방법: 메타 광고 라이브러리에서 장기렌트 관련 검색어 9개(장기렌트·장기렌터카·장기렌트카·신차렌트·신차리스·자동차리스·장기리스·무보증 장기렌트·렌트 리스 견적)로 지금 게재 중인 광고를 모두 모은 뒤, 광고를 낸 <b>페이지 기준</b>으로 게재 중 광고 수를 셈 (캐피탈·중고차처럼 다른 상품도 내는 페이지는 장기렌트 검색에 걸린 광고만) · 같은 광고를 세로·가로·문구별로 나눠 올리면 각각 1건 · 30일 신규 = 10/20 이후 게재 시작 · 구글 = 광고 투명성 센터 최근 30일 소재 수 · 네이버 = 신차장기렌트 관련 키워드 31개의 PC 파워링크 1~10위에 든 횟수(2026-11-26) · 수집 시점 기준이며 실시간 아님</p></div>`;
   $('tkm').onclick=()=>{현황열림=!현황열림; 현황그리기(d);};
   const q=$('tkq'); q.oninput=()=>{현황검색=q.value.trim(); 현황그리기(d); const n=$('tkq'); n.focus(); n.setSelectionRange(n.value.length,n.value.length);};
   $('track').querySelectorAll('tr.r').forEach(tr=>tr.onclick=e=>{ if(e.target.closest('.tip,a'))return; 열린업체=열린업체===tr.dataset.n?'':tr.dataset.n; 현황그리기(d); });
