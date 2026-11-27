@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>장기렌트 광고 모음</title>
 <meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" rel="stylesheet">
 <style>
 :root{--blue:#1E53F2;--cyan:#00ABCE;--ink:#0f172a;--sub:#64748b;--line:#e6eaf3;--paper:#f5f7fc}
@@ -281,14 +282,181 @@ footer{padding:30px 0 50px;text-align:center;color:#94a3b8;font-size:13px}
   .sec-h p{display:none}
 }
 </style>
+<style id="v2">
+/* ===== v2: 관리자 대시보드형 (2026-11-27) ===== */
+:root{--blue:#2563EB;--blue2:#1E53F2;--ink:#111827;--sub:#6b7280;--line:#e5e7eb;--paper:#f5f6f8;--soft:#f9fafb;--r:14px}
+body{background:var(--paper);font-size:14px;letter-spacing:-.01em}
+.shell{margin-left:84px;min-height:100vh}
+.w{max-width:1400px;padding:0 24px}
+/* 왼쪽 메뉴 */
+.side{position:fixed;left:0;top:0;bottom:0;width:84px;background:#fff;border-right:1px solid var(--line);z-index:40;display:flex;flex-direction:column;align-items:center;padding:14px 0}
+.side .logo{font-weight:900;color:var(--blue2);font-size:15px;letter-spacing:-.04em;text-decoration:none;margin-bottom:22px}
+.side nav{display:flex;flex-direction:column;gap:4px;width:100%;padding:0 8px}
+.side nav a{display:flex;flex-direction:column;align-items:center;gap:6px;padding:11px 2px;border-radius:12px;font-size:11.5px;font-weight:600;color:#4b5563;cursor:pointer;text-decoration:none;white-space:nowrap}
+.side nav a i{font-size:17px;color:#9ca3af}
+.side nav a:hover{background:var(--soft)}
+.side nav a.on{background:#eef4ff;color:var(--blue)}
+.side nav a.on i{color:var(--blue)}
+/* 위 막대 */
+.topbar{background:#fff;border-bottom:1px solid var(--line)}
+.topbar .w{display:flex;justify-content:space-between;align-items:center;height:60px}
+.tb-l{display:flex;align-items:center;gap:12px;font-size:14.5px}
+.tb-logo{font-weight:900;color:var(--blue2);letter-spacing:-.04em;font-size:16px}
+.tb-sep{width:1px;height:16px;background:var(--line)}
+.tb-r{display:flex;align-items:center;gap:14px;font-size:13px;color:var(--sub)}
+.tb-badge{background:#eef4ff;color:var(--blue);font-weight:700;padding:5px 12px;border-radius:8px;font-size:12.5px}
+/* 제목 카드 + 숫자 */
+.head{padding-top:20px}
+.pt{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px 22px}
+.pt-ic{width:44px;height:44px;border-radius:12px;background:#eef4ff;color:var(--blue);display:grid;place-items:center;font-size:19px;flex:none}
+.pt h1{font-size:21px;font-weight:800;letter-spacing:-.03em;line-height:1.3}
+.pt p{font-size:13px;color:var(--sub)}
+.stats{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;margin-top:12px;max-width:none}
+.stat{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;backdrop-filter:none}
+.st-t{display:flex;justify-content:space-between;align-items:flex-start;gap:6px}
+.st-t span{font-size:12.5px;color:var(--sub);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.st-t em{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:15px;flex:none}
+.stat b{display:block;font-size:26px;font-weight:800;letter-spacing:-.03em;color:var(--ink);margin-top:2px}
+.stat b small{font-size:13px;color:var(--sub);font-weight:600;margin-left:3px}
+/* 공통 패널 */
+.track{margin-top:16px}
+.ppl{margin-top:16px}
+.tk{border-radius:var(--r);box-shadow:none;border:1px solid var(--line);padding:0 0 16px;overflow:hidden}
+.tk-h{margin:0!important;padding:18px 22px;border-bottom:1px solid var(--line);align-items:center}
+.tk-h .lab{display:none}
+.tk-h h2{margin:0;font-size:17px;font-weight:800;display:flex;align-items:center;gap:9px}
+.track .tk-h h2:before{content:"\f3c5";font-family:"Font Awesome 6 Free";font-weight:900;color:var(--blue);font-size:16px}
+.tk-h p{font-size:12.5px;margin-top:3px}
+.sum{margin:18px 22px;gap:12px}
+.sum>div{background:#fff;border-radius:12px;padding:16px 18px}
+.sum span{font-size:12.5px;font-weight:600}
+.sum b{font-size:24px;font-weight:800}
+.sum .o{background:#eef4ff;border:1px solid #c7d7fe;color:var(--ink)}
+.sum .o span{color:var(--blue);font-weight:800}.sum .o b{color:var(--blue2)}.sum .o p{color:#4b5563}
+.tk-bar,.tk-wrap,.tk-foot{margin-left:22px;margin-right:22px}
+.tk-wrap{border-radius:12px}
+.tk table{font-size:14px}
+.tk th{background:#f9fafb;font-size:12.5px;color:#6b7280;font-weight:600;padding:11px 12px}
+.tk td{padding:10px 12px;border-bottom:1px solid #f1f2f4}
+.tk tr.r:hover td{background:#f8faff}
+.tk tr.ours td{background:#f0f5ff}
+.nmt{font-size:14.5px}
+.tk .mb .bar{width:130px;height:7px}
+.tk .mb .bar i{background:var(--blue)}
+.tk-q{border-radius:10px;font-size:13.5px}
+.tk-more{border-radius:10px;font-size:13px}
+.pg{padding:18px 22px 0;gap:12px}
+.pc{background:#fff;border-radius:12px}
+.pc.ours{background:#f5f8ff;border-color:#c7d7fe}
+.ppl .tk-h h2 .ytl{width:26px;height:18px}
+.rkc{width:24px;height:24px;font-size:11.5px}
+.av{border-radius:8px;width:28px;height:28px}
+.hl{border-radius:6px}
+.pill,.st{border-radius:6px}
+/* 도구줄 = 탭 + 검색 + 태그 */
+.tools{margin-top:6px;background:var(--paper);border:0;backdrop-filter:none}
+.tools .w{padding-top:10px;padding-bottom:10px;gap:0}
+.row1{background:#fff;border:1px solid var(--line);border-bottom:0;border-radius:var(--r) var(--r) 0 0;padding:0 16px;gap:16px;flex-wrap:nowrap}
+.tabs{background:none;padding:0;border-radius:0;gap:2px;flex:1;min-width:0;scrollbar-width:thin}
+.tab{border-radius:0;padding:16px 12px 14px;font-size:14px;font-weight:600;color:#4b5563;border-bottom:2px solid transparent}
+.tab small{display:inline-block;margin-left:6px;font-size:11.5px;font-weight:700;opacity:1;background:#f1f2f4;color:#6b7280;padding:1px 7px;border-radius:99px}
+.tab small:empty{display:none}
+.tab.on{background:none;box-shadow:none;color:var(--blue);border-bottom-color:var(--blue);font-weight:800}
+.tab.on small{background:#eef4ff;color:var(--blue)}
+.tab.sep{margin-left:8px}
+.search{flex:0 0 280px;min-width:0}
+.search input{padding:9px 12px 9px 36px;border-radius:10px;font-size:13.5px;background:var(--soft)}
+#chips{background:#fff;border:1px solid var(--line);border-radius:0 0 var(--r) var(--r);padding:12px 150px 12px 16px;gap:6px;max-height:57px;overflow:hidden;position:relative}
+#chips.open{max-height:none;padding-right:16px}
+.chip{border-radius:8px;padding:5px 11px;font-size:12.5px;font-weight:600;color:#4b5563;background:#fff}
+.chip:before{display:none}
+.chip:hover{border-color:#c7d2fe;color:var(--blue)}
+.chip.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.chip-more{position:absolute;right:14px;top:12px;border:1px solid #c7d7fe;background:#eef4ff;font:inherit;font-size:12.5px;font-weight:700;color:var(--blue);padding:5px 12px;border-radius:8px;cursor:pointer}
+#chips.open .chip-more{position:static}
+/* 섹션 = 흰 패널 */
+main{padding:0 0 60px}
+.sec{margin-top:16px;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:0 0 20px}
+.sec-h{align-items:center;padding:16px 22px;border-bottom:1px solid var(--line);margin-bottom:18px}
+.sec-h h2{font-size:17px;font-weight:800;display:flex;align-items:center;gap:9px}
+.sec-h h2:before{content:"\f008";font-family:"Font Awesome 6 Free";font-weight:900;color:var(--blue);font-size:15px}
+.sec-h span{font-size:12px;background:#eef4ff;color:var(--blue);font-weight:700;padding:2px 9px;border-radius:99px}
+.sec-h p{font-size:12.5px;color:#9ca3af}
+.sec>.grid,.sec>.st-grid,.sec>div:not(.sec-h),.sec>.more,.sec>p{margin-left:22px!important;margin-right:22px!important}
+.grid{gap:14px}
+.card,.kc{border-radius:12px;border-color:var(--line)}
+.card:hover,.kc:hover{transform:translateY(-2px);box-shadow:0 10px 24px -8px rgba(17,24,39,.12)}
+.body{padding:14px 16px 16px;gap:9px}
+.body h3{font-size:15px;font-weight:700}
+.hook{font-size:13px;color:#4b5563}
+.hook:before{background:var(--blue);width:2px}
+.tags span{border-radius:6px;font-size:11.5px;background:#f1f5ff;font-weight:600}
+.steal{border-radius:8px;background:#fffbeb;border:1px solid #fde68a;font-size:12.5px;color:#92400e}
+.src{border-radius:6px;font-size:11.5px}
+.len{border-radius:6px}
+.more{border-radius:10px;font-size:13px}
+.st-card{border-radius:12px;padding:18px}
+.st-card h3{font-size:15px;font-weight:800}
+footer{padding:20px 0 40px}
+@media(max-width:1300px){.stats{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:900px){
+  .shell{margin-left:0}.side{display:none}
+  .row1{flex-wrap:wrap;padding:10px 12px 0;gap:4px}.search{flex:1 1 100%;order:-1}
+  .tab{padding:12px 10px}
+}
+@media(max-width:640px){
+  .w{padding:0 12px}
+  .topbar .w{height:52px}.tb-r span:first-child{display:none}
+  .pt{padding:14px}.pt h1{font-size:18px}.pt p{font-size:12px}.pt-ic{width:38px;height:38px;font-size:16px}
+  .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-right:0;padding-right:0;overflow:visible}
+  .stat{min-width:0;padding:12px 14px}.stat b{font-size:21px}.st-t em{width:28px;height:28px;font-size:13px}
+  .tk-h{padding:14px}.sum{margin:12px 14px}.tk-bar,.tk-wrap,.tk-foot{margin-left:14px;margin-right:14px}.pg{padding:14px 14px 0}
+  .tk{padding:0 0 12px}
+  .row1{flex-direction:column;align-items:stretch}
+  #chips{max-height:none;flex-wrap:nowrap;overflow-x:auto;padding-right:16px}.chip-more{display:none}
+  .sec-h{padding:13px 14px;margin-bottom:12px}.sec>.grid,.sec>.st-grid,.sec>div:not(.sec-h),.sec>.more,.sec>p{margin-left:12px!important;margin-right:12px!important}
+}
+.pc h3{font-size:14.5px;flex-wrap:nowrap}.pc h3 small{white-space:nowrap}.pc h3 .hl{flex:none}
+#chips{max-height:54px}
+.tab{padding:16px 10px 14px}.search{flex-basis:240px}
+@media(max-width:640px){#chips{max-height:none}}
+#chips:not(.open){flex-wrap:nowrap}
+@media(max-width:640px){
+  .stats{display:flex;overflow-x:auto;gap:8px;scrollbar-width:none}.stats::-webkit-scrollbar{display:none}
+  .stat{flex:none;width:128px;padding:11px 12px}.stat b{font-size:20px}.st-t em{display:none}
+  .sum b{font-size:19px}.sum>div{padding:12px}
+}
+@media(max-width:640px){
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);overflow:visible}
+  .stat{width:auto;padding:10px 11px}.st-t span{font-size:11.5px}.stat b{font-size:18px}.stat b small{font-size:11px}
+  .tk td.mt .mb{flex-direction:column;align-items:flex-end;gap:0}
+  .tk td.mt .mb b:after{content:"건";font-size:11px;color:var(--sub);margin-left:1px}
+  .tk td.mt .mb:before{content:"게재 중";font-size:10.5px;color:var(--sub);font-weight:600;order:2}
+}
+</style>
 </head>
 <body>
-<section class="hero"><div class="w">
-  <span class="eyebrow">LONG-TERM RENTAL AD LIBRARY</span>
-  <h1>장기렌트 <em>광고 모음</em></h1>
-  <p>잘 만든 장기렌트 광고를 모아 두고, 다음 광고를 만들 때 꺼내 쓰는 곳입니다.</p>
+<aside class="side" id="side">
+  <a class="logo" href="#top">다타랩</a>
+  <nav>
+    <a data-go="track" class="on"><i class="fa-solid fa-house"></i>업체 현황</a>
+    <a data-go="ppl"><i class="fa-brands fa-youtube"></i>유튜버 PPL</a>
+    <a data-k="전체"><i class="fa-solid fa-film"></i>광고 영상</a>
+    <a data-k="구글 광고"><i class="fa-brands fa-google"></i>구글</a>
+    <a data-k="네이버 검색광고"><i class="fa-solid fa-n"></i>네이버</a>
+    <a data-k="광고 키카피 문구"><i class="fa-solid fa-quote-left"></i>키카피</a>
+    <a data-k="광고 집행 통계"><i class="fa-solid fa-chart-simple"></i>통계</a>
+  </nav>
+</aside>
+<div class="shell" id="top">
+<header class="topbar"><div class="w">
+  <div class="tb-l"><span class="tb-logo">다타랩</span><span class="tb-sep"></span><b>장기렌트 광고 모음</b></div>
+  <div class="tb-r"><span><i class="fa-regular fa-clock"></i> 광고 영상·구글·네이버 11/26 수집 · 업체 현황 11/19 기준</span><span class="tb-badge">내부 참고용</span></div>
+</div></header>
+<section class="w head">
+  <div class="pt"><span class="pt-ic"><i class="fa-solid fa-layer-group"></i></span><div><h1>장기렌트 광고 모음</h1><p>잘 만든 장기렌트 광고를 모아 두고, 다음 광고를 만들 때 꺼내 쓰는 곳 · 업체별 광고 현황 · 유튜버 PPL · 광고 영상</p></div></div>
   <div class="stats" id="stats"></div>
-</div></section>
+</section>
 
 <section class="track w" id="track"></section>
 <section class="w ppl" id="ppl"></section>
@@ -302,6 +470,7 @@ footer{padding:30px 0 50px;text-align:center;color:#94a3b8;font-size:13px}
 
 <main class="w" id="main"></main>
 <footer>장기렌트 광고 모음 · 다타랩</footer>
+</div>
 
 <div class="modal" id="modal"><div class="box" id="box"><button class="x" id="x" aria-label="닫기">×</button><div id="player"></div></div></div>
 
@@ -703,13 +872,14 @@ let 네이버=[], 구글=[]; const 수집일='2026-11-26 (업체별 메타 게�
 const 개수 = k => k==='광고 집행 통계' ? '' : k==='광고 키카피 문구' ? 키카피.length : k==='네이버 검색광고' ? 네이버.filter(n=>!n.ex).length : k==='구글 광고' ? 구글.length : k==='전체' ? 광고.length : 광고.filter(a=>a.분류===k).length;
 const 우리 = ['다타랩','다타랩TV'];
 const $ = id => document.getElementById(id);
-let 탭='전체', 태그='';
+let 탭='전체', 태그='', 태그열림=false;
 
+const 통계아이콘={'전체 영상':['fa-solid fa-film','#1E53F2'],'숏폼 광고':['fa-solid fa-mobile-screen','#7c3aed'],'브랜드 광고':['fa-solid fa-tv','#0891b2'],'크리에이터 PPL':['fa-solid fa-user-tie','#ea580c'],'유튜브 검색 영상':['fa-brands fa-youtube','#dc2626'],'인스타·페북 광고':['fa-brands fa-instagram','#db2777'],'브랜드':['fa-solid fa-building','#16a34a']};
 function 숫자그리기(){ $('stats').innerHTML = [
   [광고.length,'전체 영상'],
   ...분류순.filter(([k])=>k!=='광고 집행 통계'&&k!=='광고 키카피 문구'&&k!=='네이버 검색광고'&&k!=='구글 광고').map(([k])=>[개수(k),k]),
   [new Set(광고.map(a=>a.브랜드.replace('TV',''))).size,'브랜드']
-].map(([n,t])=>`<div class="stat"><b>${n}</b><span>${t}</span></div>`).join(''); }
+].map(([n,t])=>{const [ic,c]=통계아이콘[t]||['fa-solid fa-circle','#1E53F2']; return `<div class="stat"><div class="st-t"><span>${t}</span><em style="color:${c};background:${c}1a"><i class="${ic}"></i></em></div><b>${Number(n).toLocaleString()}<small>${t==='브랜드'?'곳':'편'}</small></b></div>`;}).join(''); }
 숫자그리기();
 
 function 탭그리기(){
@@ -717,10 +887,11 @@ function 탭그리기(){
     .map(([k,n])=>`<button class="tab${k===탭?' on':''}${k==='광고 키카피 문구'?' sep':''}" data-k="${k}">${k}<small>${n}</small></button>`).join('');
   const 태그들=[...new Set([...광고.filter(a=>(탭==='전체'&&!a.자동)||a.분류===탭).flatMap(a=>a.태그), ...(탭==='광고 키카피 문구'?키카피.map(c=>c.기법):[]), ...(탭==='네이버 검색광고'?네이버.map(n=>n.kw):[]), ...(탭==='구글 광고'?구글.map(g=>g.domain):[])])];
   if(태그 && !태그들.includes(태그)) 태그='';
-  $('chips').innerHTML = `<button class="chip all${태그===''?' on':''}" data-t="">전체</button>` + 태그들.map(t=>`<button class="chip${t===태그?' on':''}" data-t="${t}">${t}</button>`).join('');
+  $('chips').innerHTML = `<button class="chip all${태그===''?' on':''}" data-t="">전체</button>` + 태그들.map(t=>`<button class="chip${t===태그?' on':''}" data-t="${t}">${t}</button>`).join('') + (태그들.length>14?`<button class="chip-more" id="chipMore">${태그열림?'태그 접기 ▲':`태그 ${태그들.length}개 전체 ▼`}</button>`:'');
+  $('chips').classList.toggle('open',태그열림);
 }
 $('tabs').onclick=e=>{const b=e.target.closest('.tab'); if(!b) return; 탭=b.dataset.k; 태그=''; 그리기();};
-$('chips').onclick=e=>{const b=e.target.closest('.chip'); if(!b) return; 태그 = b.dataset.t; 그리기();};
+$('chips').onclick=e=>{ if(e.target.closest('#chipMore')){태그열림=!태그열림; 탭그리기(); return;} const b=e.target.closest('.chip'); if(!b) return; 태그 = b.dataset.t; 그리기();};
 $('q').oninput=()=>그리기();
 
 function 카드(a){
@@ -866,6 +1037,11 @@ function 닫기(){ $('modal').classList.remove('on'); $('player').innerHTML=''; 
 $('x').onclick=닫기;
 $('modal').onclick=e=>{ if(e.target.id==='modal') 닫기(); };
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') 닫기(); });
+document.querySelectorAll('#side nav a').forEach(a=>a.onclick=()=>{
+  document.querySelectorAll('#side nav a').forEach(x=>x.classList.toggle('on',x===a));
+  if(a.dataset.k){ 탭=a.dataset.k; 태그=''; $('q').value=''; 그리기(); scrollTo({top:document.querySelector('.tools').offsetTop-8,behavior:'smooth'}); }
+  else { const el=$(a.dataset.go); scrollTo({top:el.getBoundingClientRect().top+scrollY-12,behavior:'smooth'}); }
+});
 그리기();
 fetch('메타광고.json').then(r=>r.ok?r.json():[]).then(list=>{
   메타원본=list;
@@ -897,8 +1073,8 @@ function 현황그리기(d){
   const 우리=rest.findIndex(r=>r.ours), 우리r=rest[우리];
   const 보일=현황검색?rest.filter(r=>r.name.toLowerCase().includes(현황검색.toLowerCase())):(현황열림?rest:rest.slice(0,20));
   const 썸=r=>{const L=업체이미지[r.name]||[]; return L.length?`<div class="th3">${L.slice(0,3).map(x=>`<img src="${x.f}" loading="lazy" alt="">`).join('')}${L.length>3?`<span>+${L.length-3}</span>`:''}</div>`:'<span class="na">-</span>';};
-  const 형식=r=>{ if(r.video==null) return '<span class="na">-</span>'; const t=(r.video||0)+(r.image||0)||1;
-    return `<div class="fm"><div class="sp"><i class="v" style="width:${r.video/t*100}%"></i><i class="m" style="width:${r.image/t*100}%"></i></div><small>영상 ${r.video} · 이미지 ${r.image}</small></div>`;};
+  const 형식=r=>{ if(r.video==null) return '<span class="na">-</span>'; const t=Math.max((r.video||0)+(r.image||0),r.meta||0)||1;
+    return `<div class="fm"><div class="sp"><i class="v" style="width:${r.video/t*100}%"></i><i class="m" style="width:${r.image/t*100}%"></i></div><small>영상 ${r.video} · 이미지 ${r.image}${(r.meta||0)-r.video-r.image>0?` · 기타 ${(r.meta||0)-r.video-r.image}`:''}</small></div>`;};
   const 상세=r=>{const L=업체이미지[r.name]||[];
     return `<tr class="det"><td colspan="9"><div class="dt">
       ${r.memo?`<p class="dm">${r.memo}</p>`:''}
@@ -917,7 +1093,7 @@ function 현황그리기(d){
   let body=보일.map(r=>줄(r,rest.indexOf(r))).join('');
   if(!현황검색 && !현황열림 && 우리>=20) body+=줄(우리r,우리);
   $('track').innerHTML=`<div class="tk">
-   <div class="tk-h"><div><span class="lab">LIVE TRACKER</span><h2>장기렌트 업체별 지금 돌리는 광고</h2><p>메타(인스타·페북) 광고 라이브러리 기준 · ${d.기준.replace(/\s*\(.*\)$/,'')} 수집</p></div></div>
+   <div class="tk-h"><div><span class="lab">LIVE TRACKER</span><h2>장기렌트 업체별 게재 중 광고 <small style="font-size:12.5px;color:#2563EB;background:#eef4ff;padding:2px 9px;border-radius:99px;font-weight:700">${d.기준.replace(/\s*\(.*\)$/,'').replace(/^(\d{4})-(\d\d)-(\d\d).*/,(m,y,a,b)=>`${+a}/${+b} 기준`)}</small></h2><p>메타(인스타·페북) 광고 라이브러리 기준 · ${d.기준.replace(/\s*\(.*\)$/,'')} 수집</p></div></div>
    <div class="sum">
      <div><span>시장 규모</span><b>${rows.filter(r=>r.meta>0).length}곳 · ${총.toLocaleString()}건</b><p>장기렌트 업체가 지금 인스타·페북에 게재 중인 광고</p></div>
      <div class="g"><span>최근 30일 새 광고</span><b>+${신규.toLocaleString()}건</b><p>게재 중 광고의 ${Math.round(신규/총*100)}%가 한 달 안에 새로 올라옴</p></div>
