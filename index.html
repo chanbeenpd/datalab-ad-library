@@ -433,6 +433,9 @@ footer{padding:20px 0 40px}
   .tk td.mt .mb b:after{content:"건";font-size:11px;color:var(--sub);margin-left:1px}
   .tk td.mt .mb:before{content:"게재 중";font-size:10.5px;color:var(--sub);font-weight:600;order:2}
 }
+@media(max-width:900px){.search{flex:none;width:100%}}
+#chips:not(.open):after{content:"";position:absolute;right:0;top:0;bottom:0;width:180px;background:linear-gradient(90deg,rgba(255,255,255,0),#fff 36px);border-radius:0 0 14px 0}.chip-more{z-index:2}
+@media(max-width:640px){#chips:after{display:none}}
 </style>
 </head>
 <body>
