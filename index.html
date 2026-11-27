@@ -436,6 +436,15 @@ footer{padding:20px 0 40px}
 @media(max-width:900px){.search{flex:none;width:100%}}
 #chips:not(.open):after{content:"";position:absolute;right:0;top:0;bottom:0;width:180px;background:linear-gradient(90deg,rgba(255,255,255,0),#fff 36px);border-radius:0 0 14px 0}.chip-more{z-index:2}
 @media(max-width:640px){#chips:after{display:none}}
+.fbar{background:#f9fafb;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:16px;display:flex;flex-direction:column;gap:8px}
+.fr{display:flex;align-items:flex-start;gap:12px}.fr>b{flex:none;width:34px;font-size:12.5px;color:var(--sub);padding-top:6px}
+.fcs{display:flex;flex-wrap:wrap;gap:6px}
+.fc{border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 11px;font:inherit;font-size:13px;font-weight:600;color:#374151;cursor:pointer;white-space:nowrap}
+.fc small{margin-left:6px;font-size:11px;font-weight:700;color:#6b7280;background:#f1f2f4;padding:1px 6px;border-radius:99px}
+.fc:hover{border-color:#c7d2fe;color:var(--blue)}
+.fc.on{background:var(--blue);border-color:var(--blue);color:#fff}.fc.on small{background:rgba(255,255,255,.22);color:#fff}
+.fd{font-size:12px;color:var(--sub);margin:0 0 0 46px}
+@media(max-width:640px){.fr{flex-direction:column;gap:6px}.fr>b{padding:0}.fcs{flex-wrap:nowrap;overflow-x:auto;width:100%;scrollbar-width:none}.fd{margin:0}}
 </style>
 </head>
 <body>
@@ -875,7 +884,8 @@ let 네이버=[], 구글=[]; const 수집일='2026-11-26 (업체별 메타 게�
 const 개수 = k => k==='광고 집행 통계' ? '' : k==='광고 키카피 문구' ? 키카피.length : k==='네이버 검색광고' ? 네이버.filter(n=>!n.ex).length : k==='구글 광고' ? 구글.length : k==='전체' ? 광고.length : 광고.filter(a=>a.분류===k).length;
 const 우리 = ['다타랩','다타랩TV'];
 const $ = id => document.getElementById(id);
-let 탭='전체', 태그='', 태그열림=false;
+let 탭='전체', 태그='', 태그열림=false, 구글업체='', 구글형식='';
+const 짧은이름=n=>n.replace(/주식회사|\(주\)|㈜/g,'').replace(/\s+/g,' ').trim();
 
 const 통계아이콘={'전체 영상':['fa-solid fa-film','#1E53F2'],'숏폼 광고':['fa-solid fa-mobile-screen','#7c3aed'],'브랜드 광고':['fa-solid fa-tv','#0891b2'],'크리에이터 PPL':['fa-solid fa-user-tie','#ea580c'],'유튜브 검색 영상':['fa-brands fa-youtube','#dc2626'],'인스타·페북 광고':['fa-brands fa-instagram','#db2777'],'브랜드':['fa-solid fa-building','#16a34a']};
 function 숫자그리기(){ $('stats').innerHTML = [
@@ -947,7 +957,7 @@ function 네이버카드(n){
 }
 function 구글카드(g){
   return `<article class="kc"><div style="background:#f1f5f9;padding:10px;text-align:center"><img src="구글/${g.img}" alt="" loading="lazy" style="max-width:100%;max-height:420px;border-radius:8px"></div>
-    <div class="kc-body"><div class="kc-meta"><b>${g.adv||''}</b><span>${g.kind}</span></div>
+    <div class="kc-body"><div class="kc-meta"><b>${짧은이름(g.adv||'')}</b><span>${g.kind}</span></div>
     <div style="font-size:12px;color:var(--sub)">${g.domain}${g.total?` · 이 도메인 광고 약 ${g.total}개`:''}</div>
     ${g.href?`<a href="${g.href}" target="_blank" rel="noopener" style="font-size:13px;color:var(--blue);font-weight:700">투명성 센터에서 보기 →</a>`:''}</div></article>`;
 }
@@ -1003,9 +1013,20 @@ function 그리기(){
       ${접기?`<button class="more" data-k="${분류}">${목록.length}편 전체 보기 →</button>`:''}</section>`;
   }
   if(탭==='구글 광고'){
-    const 목록=구글.filter(g=>(!태그||g.domain===태그)&&(!k||JSON.stringify(g).toLowerCase().includes(k)));
-    if(목록.length) html+=`<section class="sec"><div class="sec-h"><h2>구글 광고</h2><span>${목록.length}개</span><p>2026-11-26 수집 · 단기렌트·중고차·보험·빈 화면 제외 · 동영상 소재는 투명성 센터 링크에서 재생</p></div>
-      <div class="grid kcg">${목록.map(구글카드).join('')}</div></section>`;
+    const 기본=구글.filter(g=>(!태그||g.domain===태그)&&(!k||JSON.stringify(g).toLowerCase().includes(k)));
+    const 업체명=g=>짧은이름(g.adv||'광고주 미확인');
+    const 업체수={}; 기본.filter(g=>!구글형식||g.kind===구글형식).forEach(g=>{const n=업체명(g); 업체수[n]=(업체수[n]||0)+1;});
+    const 형식수={}; 기본.filter(g=>!구글업체||업체명(g)===구글업체).forEach(g=>{형식수[g.kind]=(형식수[g.kind]||0)+1;});
+    const 목록=기본.filter(g=>(!구글업체||업체명(g)===구글업체)&&(!구글형식||g.kind===구글형식));
+    const 도메인=n=>[...new Set(구글.filter(g=>업체명(g)===n).map(g=>g.domain))].join(' · ');
+    const 업체칩=Object.entries(업체수).sort((a,b)=>b[1]-a[1]).map(([n,c])=>`<button class="fc${구글업체===n?' on':''}" data-gu="${n}" title="${도메인(n)}">${n}<small>${c}</small></button>`).join('');
+    const 형식칩=Object.entries(형식수).map(([n,c])=>`<button class="fc${구글형식===n?' on':''}" data-gk="${n}">${n}<small>${c}</small></button>`).join('');
+    const 합=Object.values(업체수).reduce((a,b)=>a+b,0);
+    html+=`<section class="sec"><div class="sec-h"><h2>구글 광고</h2><span>${목록.length}개</span><p>2026-11-26 수집 · 단기렌트·중고차·보험·빈 화면 제외 · 동영상 소재는 투명성 센터 링크에서 재생</p></div>
+      <div class="fbar" id="gfilter"><div class="fr"><b>업체</b><div class="fcs"><button class="fc${구글업체?'':' on'}" data-gu="">전체<small>${합}</small></button>${업체칩}</div></div>
+      <div class="fr"><b>형식</b><div class="fcs"><button class="fc${구글형식?'':' on'}" data-gk="">전체</button>${형식칩}</div></div>
+      ${구글업체?`<p class="fd">${구글업체} 광고 도메인: ${도메인(구글업체)}</p>`:''}</div>
+      ${목록.length?`<div class="grid kcg">${목록.map(구글카드).join('')}</div>`:'<div class="empty">조건에 맞는 광고가 없습니다.</div>'}</section>`;
   }
   if(탭==='광고 집행 통계') html+=통계();
   if(탭==='네이버 검색광고'){
@@ -1027,6 +1048,7 @@ function 그리기(){
   $('main').innerHTML = html || '<div class="empty">찾는 광고가 없습니다.</div>';
 }
 $('main').onclick=e=>{
+  const gf=e.target.closest('#gfilter .fc'); if(gf){ if('gu' in gf.dataset) 구글업체=gf.dataset.gu; if('gk' in gf.dataset) 구글형식=gf.dataset.gk; 그리기(); return; }
   const mb=e.target.closest('.more'); if(mb){ 탭=mb.dataset.k; 태그=''; 그리기(); scrollTo({top:document.querySelector('.tools').offsetTop}); return; }
   const m=e.target.closest('.media'); if(!m) return;
   const a=광고[+m.dataset.i];
